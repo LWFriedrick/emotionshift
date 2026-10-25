@@ -46,7 +46,7 @@ Reading the numbers:
 - MELD weighted-F1 56.8 sits between the oracle-inertia floor (44.9) and the
   published context models (DialogueGCN 58.10, COSMIC 65.21), as expected for an
   utterance-only model.
-- On MELD shift turns B1 scores 49.2 vs 62.1 on stable turns: the gap the project
+- On MELD shift turns B1 scores 49.1 vs 62.1 on stable turns: the gap the project
   is about, even without any context. Offsets (emotion → neutral) are easy (85.9)
   because B1 predicts neutral often; within-negative shifts are hardest (32.1).
 - Dev selection picked a linear SVM with balanced class weights and word 1–2-grams
@@ -120,9 +120,10 @@ emotionshift/data/    loaders.py (one Dialogue/Turn table), labels.py, shifts.py
 emotionshift/models/  tfidf.py (B1)
 emotionshift/eval/    metrics.py (scores, stratified, derived shift detection, bootstrap CI)
 configs/b1_tfidf.yaml dev grid, seeds, test splits
-scripts/              fetch_data.sh, train_b1.py
+scripts/              fetch_data.sh, train_b1.py, make_notebook.py
+notebooks/            b1_tfidf_svm.ipynb (executed walkthrough with outputs, for the video)
 tests/                test_data.py
-reports/b1/           dev_grid.csv, summary.json, stratified / per-class / confusion CSVs, results.md
+reports/b1/           figures/*.png, dev_grid.csv, summary.json, stratified / per-class / confusion CSVs, results.md
 predictions/          shared-format prediction CSVs
 ```
 
