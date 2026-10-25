@@ -13,9 +13,9 @@ emotion changes, on MELD and DailyDialog. Full plan: [`docs/EmotionShift_proposa
 |---|---|---|---|
 | 1 | Majority / emotional-inertia baseline | open | — |
 | 2 | TF-IDF + linear SVM | Lixian | ✅ done: [`docs/B1_TFIDF_SVM.md`](docs/B1_TFIDF_SVM.md) |
-| 3 | BiGRU / BiLSTM | Thanh | in progress |
-| 4 | RoBERTa-base, utterance only | KL Y | in progress |
-| 5 | Context-aware RoBERTa | Anqi | in progress |
+| 3 | BiGRU / BiLSTM | Thanh | claimed |
+| 4 | Transformer, utterance only (proposal: RoBERTa-base) | KL Y | claimed |
+| 5 | Context-aware RoBERTa | Anqi | claimed |
 | 6 | ShiftAware (speaker / shift-aware) | open | — |
 | — | Demo, slides and video integration | Lixian | in progress |
 
@@ -27,7 +27,7 @@ labels, metrics, efficiency helpers, prediction format, tests.
 ```bash
 uv sync                          # or: pip install numpy pandas scikit-learn scipy joblib pyyaml matplotlib pytest
 bash scripts/fetch_data.sh       # downloads MELD + DailyDialog into data/raw/ (not in Git)
-uv run pytest                    # 14 checks: data rules, pilot numbers, metrics, B1 interface
+uv run pytest                    # 15 checks: data rules, pilot numbers, metrics, B1 interface
 ```
 
 ```python
@@ -63,10 +63,13 @@ All in `emotionshift/data/`, checked by `tests/test_data.py`.
 | CIs | Bootstrap over **dialogues** (1,000 resamples), since utterances in one dialogue are not independent | — |
 | No gold at inference | History features use predicted emotions; gold-history results are labelled "oracle" | — |
 
-The proposal's pilot numbers are reproduced exactly by `tests/test_data.py`:
-always-neutral 0.313 and oracle inertia 0.449 weighted-F1 on MELD test; MELD
-shift rate 53.8%; DailyDialog shift rate 18.0% and oracle inertia 0.397 micro-F1
-excl. neutral. Two notes: the proposal's "197 of 1,000 DailyDialog test dialogues
+The proposal's MELD and DailyDialog pilot numbers are reproduced exactly by
+`tests/test_data.py`: always-neutral 0.313 and oracle inertia 0.449 weighted-F1 on
+MELD test; MELD shift rate 53.8%; Markov shift forecast AUROC 0.663 / AUPRC 0.673;
+the self-transition rates and neutral-attractor range in the Interpretation
+section; DailyDialog shift rate 18.0% and oracle inertia 0.397 micro-F1 excl.
+neutral. Not yet reproduced: the MELD-FR previous-utterance trigger baseline
+(F1 0.684), which needs the MELD-FR data (SemEval-2024 Task 10) used by E7. Two notes: the proposal's "197 of 1,000 DailyDialog test dialogues
 share their first two turns with train" comes out as 182 with exact matching (the
 105 verbatim figure used for de-dup matches); and the shift-type order above is the
 one that reproduces the proposal's counts.

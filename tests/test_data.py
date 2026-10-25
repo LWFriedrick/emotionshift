@@ -80,6 +80,25 @@ def test_pilot_numbers(meld, dd):
     assert round((d[d.stratum != "first"].stratum == "shift").mean(), 3) == 0.180
 
 
+def test_markov_shift_forecast_pilot(meld):
+    # Proposal pilot: Markov shift forecast with oracle previous label, MELD test
+    # AUROC 0.663, AUPRC 0.673 (chance 0.538); transition prior estimated on train.
+    import pandas as pd
+    from sklearn.metrics import average_precision_score, roc_auc_score
+    tr = meld[(meld.split == "train") & (meld.stratum != "first")]
+    P = pd.crosstab(tr.prev_emotion, tr.emotion, normalize="index")
+    t = meld[(meld.split == "test") & (meld.stratum != "first")]
+    score = [1 - P.loc[p, p] for p in t.prev_emotion]
+    y = (t.stratum == "shift").astype(int)
+    assert round(roc_auc_score(y, score), 3) == 0.663
+    assert round(average_precision_score(y, score), 3) == 0.673
+    # Interpretation section: self-transition rates and neutral as an attractor.
+    self_rate = {e: round(P.loc[e, e], 2) for e in ["neutral", "anger", "joy", "sadness", "fear"]}
+    assert self_rate == {"neutral": 0.59, "anger": 0.41, "joy": 0.33, "sadness": 0.28, "fear": 0.17}
+    to_neutral = [P.loc[e, "neutral"] for e in P.index if e != "neutral"]
+    assert round(min(to_neutral), 2) == 0.27 and round(max(to_neutral), 2) == 0.41
+
+
 def test_metrics_match_sklearn(meld):
     t = meld[meld.split == "test"]
     pred = t.prev_emotion.fillna("neutral")

@@ -2,7 +2,7 @@
 
     python scripts/train_b1.py                       # both datasets, config defaults
     python scripts/train_b1.py --datasets meld       # one dataset
-    python scripts/train_b1.py --quick               # tiny grid, 1 seed (smoke test)
+    python scripts/train_b1.py --quick               # tiny grid, 1 seed (smoke test; writes to outputs_quick/ only)
 
 Writes
     reports/b1/<dataset>/dev_grid.csv        every grid point, scored on dev
@@ -61,10 +61,11 @@ def dev_grid(df: pd.DataFrame, grid: dict, metric: str) -> pd.DataFrame:
 
 
 def run(dataset: str, cfg: dict, quick: bool) -> dict:
-    out = ROOT / "reports" / "b1" / dataset
+    base = ROOT / "outputs_quick" if quick else ROOT  # --quick never touches the real results
+    out = base / "reports" / "b1" / dataset
     out.mkdir(parents=True, exist_ok=True)
-    (ROOT / "predictions").mkdir(exist_ok=True)
-    (ROOT / "models").mkdir(exist_ok=True)
+    (base / "predictions").mkdir(parents=True, exist_ok=True)
+    (base / "models").mkdir(parents=True, exist_ok=True)
 
     df = load(dataset)
     metric = cfg["select_on"][dataset]
@@ -95,7 +96,7 @@ def run(dataset: str, cfg: dict, quick: bool) -> dict:
         model = TfidfBaseline(TfidfConfig(**best_cfg, seed=seed)).fit(train.text, train.emotion)
         fit_seconds.append(time.perf_counter() - t0)
         if seed == seeds[0]:
-            path = ROOT / "models" / f"b1_{dataset}.joblib"
+            path = base / "models" / f"b1_{dataset}.joblib"
             model.save(path)
             (out / "top_features.json").write_text(json.dumps(model.top_features(15), indent=1))
             clf = model.pipe.named_steps["clf"]
@@ -112,7 +113,7 @@ def run(dataset: str, cfg: dict, quick: bool) -> dict:
             t = df[df.split == split].copy()
             t["pred"] = model.predict(t.text)
             t["model"], t["seed"] = "b1_tfidf", seed
-            t[PRED_COLS].to_csv(ROOT / "predictions" / f"b1_{dataset}_{split}_seed{seed}.csv", index=False)
+            t[PRED_COLS].to_csv(base / "predictions" / f"b1_{dataset}_{split}_seed{seed}.csv", index=False)
             preds[split].append(t)
 
     summary["efficiency"]["train_seconds"] = {"mean": float(np.mean(fit_seconds)),
@@ -178,7 +179,8 @@ def main():
     cfg = yaml.safe_load(open(a.config))
     summaries = [run(d, cfg, a.quick) for d in (a.datasets or cfg["datasets"])]
     md = results_table(summaries)
-    (ROOT / "reports" / "b1" / "results.md").write_text(md)
+    base = ROOT / "outputs_quick" if a.quick else ROOT
+    (base / "reports" / "b1" / "results.md").write_text(md)
     print(md)
 
 
