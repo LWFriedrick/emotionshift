@@ -21,6 +21,7 @@ import itertools
 import json
 import sys
 import time
+
 from pathlib import Path
 
 import numpy as np
@@ -32,6 +33,7 @@ sys.path.insert(0, str(ROOT))
 
 from emotionshift.data.labels import EMOTIONS  # noqa: E402
 from emotionshift.data.loaders import load  # noqa: E402
+from emotionshift.eval import efficiency as E  # noqa: E402
 from emotionshift.eval import metrics as M  # noqa: E402
 from emotionshift.models.tfidf import TfidfBaseline, TfidfConfig, _classifier, _features  # noqa: E402
 
@@ -87,17 +89,34 @@ def run(dataset: str, cfg: dict, quick: bool) -> dict:
                "seeds": seeds, "test": {}}
     preds = {s: [] for s in cfg["test_splits"][dataset]}
 
+    fit_seconds = []
     for seed in seeds:
+        t0 = time.perf_counter()
         model = TfidfBaseline(TfidfConfig(**best_cfg, seed=seed)).fit(train.text, train.emotion)
+        fit_seconds.append(time.perf_counter() - t0)
         if seed == seeds[0]:
-            model.save(ROOT / "models" / f"b1_{dataset}.joblib")
+            path = ROOT / "models" / f"b1_{dataset}.joblib"
+            model.save(path)
             (out / "top_features.json").write_text(json.dumps(model.top_features(15), indent=1))
+            clf = model.pipe.named_steps["clf"]
+            test_texts = df[df.split == cfg["test_splits"][dataset][0]].text
+            summary["efficiency"] = {
+                "features": int(clf.coef_.shape[1]),
+                "parameters": int(clf.coef_.size + clf.intercept_.size),
+                "model_file_mb": round(E.file_size_mb(path), 2),
+                "latency_one_utterance": E.latency_ms(model.predict, test_texts),
+                "batch_throughput": E.throughput(model.predict, test_texts),
+                "machine": E.machine(),
+            }
         for split in cfg["test_splits"][dataset]:
             t = df[df.split == split].copy()
             t["pred"] = model.predict(t.text)
             t["model"], t["seed"] = "b1_tfidf", seed
             t[PRED_COLS].to_csv(ROOT / "predictions" / f"b1_{dataset}_{split}_seed{seed}.csv", index=False)
             preds[split].append(t)
+
+    summary["efficiency"]["train_seconds"] = {"mean": float(np.mean(fit_seconds)),
+                                              "per_seed": [round(s, 2) for s in fit_seconds]}
 
     for split, runs in preds.items():
         per_seed = [M.scores(t.emotion, t.pred) for t in runs]
@@ -133,8 +152,21 @@ def results_table(summaries: list[dict]) -> str:
             lines.append(f"| {s['dataset']} | {split} | {r['n']} | {f('weighted_f1')} | {f('macro_f1')} | "
                          f"{f('micro_f1_no_neutral')} | {100*r['derived_shift_detection']['shift_f1']:.2f} |")
     cfgs = "; ".join(f"{s['dataset']}: {s['config']}" for s in summaries)
-    return ("# B1 TF-IDF results\n\nMean ± std over seeds, [95% dialogue-bootstrap CI, seed 0], in %.\n"
-            f"Configs chosen on dev: {cfgs}\n\n" + "\n".join(lines) + "\n")
+    eff = ["| Dataset | Features | Parameters | Model file | Train time | Latency per utterance (median / p95) | Batch throughput |",
+           "|---|---|---|---|---|---|---|"]
+    for s in summaries:
+        e = s["efficiency"]
+        lat, thr = e["latency_one_utterance"], e["batch_throughput"]
+        eff.append(f"| {s['dataset']} | {e['features']:,} | {e['parameters']:,} | {e['model_file_mb']:.2f} MB | "
+                   f"{e['train_seconds']['mean']:.1f} s | {lat['median_ms']:.2f} / {lat['p95_ms']:.2f} ms | "
+                   f"{thr['utterances_per_second']:,.0f} utt/s |")
+    m = summaries[0]["efficiency"]["machine"]
+    return (f"# B1 TF-IDF results\n\nMean ± std over {len(summaries[0]['seeds'])} seeds, "
+            "[95% dialogue-bootstrap CI, seed 0], in %.\n"
+            f"Configs chosen on dev: {cfgs}\n\n" + "\n".join(lines) + "\n\n"
+            "## Efficiency (E9)\n\n" + "\n".join(eff) + "\n\n"
+            f"Measured on CPU only ({m['cpu_count']} cores, {m['processor']}, Python {m['python']}); "
+            "latency = one utterance per call, as in the demo.\n")
 
 
 def main():

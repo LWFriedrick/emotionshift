@@ -3,7 +3,7 @@
 # with each seed and scored once on test (protocol: no tuning on test).
 
 datasets: [meld, dailydialog]
-seeds: [0, 1, 2]          # proposal R4: at least 3 seeds
+seeds: [0, 1, 2, 3, 4]    # proposal R4 (>= 3) and E1 headline rows (5)
 bootstrap: 1000           # dialogue-level bootstrap resamples for 95% CIs
 
 grid:

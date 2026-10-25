@@ -21,9 +21,9 @@ This notebook walks through the traditional-ML baseline step by step:
 5. Look inside the model: which n-grams drive each emotion
 
 B1 reads **one utterance at a time** (no dialogue context, no speaker), so it is the
-reference point the context-aware models (#4 to #6) must beat. The full 3-seed run
-with every output file is `scripts/train_b1.py`; this notebook reproduces its seed-0
-numbers."""),
+reference point the context-aware models (#4 to #6) must beat. The full 5-seed run
+with every output file is `scripts/train_b1.py`; this notebook reproduces its numbers
+(LinearSVC is deterministic, so every seed gives the same model)."""),
 code("""import sys, time, json
 from pathlib import Path
 ROOT = Path.cwd().parent if Path.cwd().name == "notebooks" else Path.cwd()
@@ -191,9 +191,33 @@ proba = m.predict_proba(lines)
 pd.DataFrame({"utterance": lines, "prediction": m.predict(lines),
               "confidence": proba.max(axis=1).round(2)})"""),
 md("""Note "Yeah." gets neutral regardless of tone: one-word turns are labelled from voice and context
-in MELD, which a text-only, utterance-only model cannot see (the proposal's text-only limitation).
+in MELD, which a text-only, utterance-only model cannot see (the proposal's text-only limitation)."""),
 
-## Takeaways
+md("""## 8. Efficiency (E9)
+
+Parameters, training time, model size and the per-utterance CPU latency the demo will see
+(one utterance per call; the proposal's demo budget is 300 ms per turn)."""),
+code("""from emotionshift.eval import efficiency as E
+rows = []
+for name in ["meld", "dailydialog"]:
+    df = meld if name == "meld" else dd
+    train = df[df.split == "train"]
+    t0 = time.perf_counter()
+    mdl = TfidfBaseline(TfidfConfig(**best[name], seed=0)).fit(train.text, train.emotion)
+    fit_s = time.perf_counter() - t0
+    path = ROOT / "models" / f"_nb_b1_{name}.joblib"; path.parent.mkdir(exist_ok=True); mdl.save(path)
+    clf = mdl.pipe.named_steps["clf"]
+    lat = E.latency_ms(mdl.predict, df[df.split == "test"].text)
+    rows.append({"dataset": name, "features": clf.coef_.shape[1], "parameters": clf.coef_.size + clf.intercept_.size,
+                 "model file (MB)": round(E.file_size_mb(path), 2), "train (s)": round(fit_s, 1),
+                 "latency median (ms)": round(lat["median_ms"], 2), "latency p95 (ms)": round(lat["p95_ms"], 2)})
+    path.unlink()
+print(E.machine())
+pd.DataFrame(rows)"""),
+md("""B1 is tiny: under 80K parameters on MELD, a model file under 1 MB, seconds to train, and
+well under a millisecond per utterance, so it costs the demo essentially nothing.
+
+## Takeaways"""),
 
 * B1 reaches **56.8 weighted-F1 on MELD** and **53.0 micro-F1 (excl. neutral) on de-duplicated
   DailyDialog**, a strong floor for the transformer models.
@@ -201,6 +225,7 @@ in MELD, which a text-only, utterance-only model cannot see (the proposal's text
   short utterances.
 * B1 is **13 points worse on shift turns than on stable turns** on MELD, the gap the
   context and ShiftAware models are designed to close.
+* It is **cheap**: under 1 MB, seconds to train, under 1 ms per utterance on CPU.
 
 Sources: Poria et al. (2019) MELD; Li et al. (2017) DailyDialog; Joachims (1998) text
 categorisation with SVMs; scikit-learn (Pedregosa et al., 2011)."""),
