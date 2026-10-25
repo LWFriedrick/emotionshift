@@ -1,0 +1,60 @@
+{
+ "dataset": "meld",
+ "model": "B1 TF-IDF",
+ "selected_on_dev": "weighted_f1",
+ "config": {
+  "classifier": "svm",
+  "C": 0.1,
+  "class_weight": "balanced",
+  "features": "word"
+ },
+ "dev": {
+  "weighted_f1": 0.5488,
+  "macro_f1": 0.3987,
+  "micro_f1_no_neutral": 0.4199
+ },
+ "seeds": [
+  0,
+  1,
+  2
+ ],
+ "test": {
+  "test": {
+   "weighted_f1": {
+    "mean": 0.5678072271836925,
+    "std": 0.0,
+    "ci95_seed0": [
+     0.5459086764360658,
+     0.5894460101112361
+    ]
+   },
+   "macro_f1": {
+    "mean": 0.3839408070004759,
+    "std": 5.551115123125783e-17,
+    "ci95_seed0": [
+     0.36129850600219343,
+     0.4054240032194765
+    ]
+   },
+   "micro_f1_no_neutral": {
+    "mean": 0.4090734332948866,
+    "std": 0.0,
+    "ci95_seed0": [
+     0.381254155375236,
+     0.43651367308960043
+    ]
+   },
+   "accuracy": {
+    "mean": 0.5762452107279693,
+    "std": 0.0
+   },
+   "n": 2610,
+   "derived_shift_detection": {
+    "n": 1864,
+    "base_rate": 0.5380901287553648,
+    "shift_f1": 0.6853080568720379,
+    "predicted_shift_rate": 0.5938841201716738
+   }
+  }
+ }
+}

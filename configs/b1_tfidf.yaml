@@ -1,0 +1,29 @@
+# B1: TF-IDF + linear classifier, utterance only.
+# Grid is searched on DEV only; the chosen config is then trained on train
+# with each seed and scored once on test (protocol: no tuning on test).
+
+datasets: [meld, dailydialog]
+seeds: [0, 1, 2]          # proposal R4: at least 3 seeds
+bootstrap: 1000           # dialogue-level bootstrap resamples for 95% CIs
+
+grid:
+  classifier: [svm, logreg]
+  C: [0.1, 0.3, 1.0, 3.0]
+  class_weight: [null, balanced]
+  features: [word, word+char]
+
+# DailyDialog has 87K training utterances, so (as the proposal's risk table
+# says) the full grid runs on MELD only and DailyDialog gets a smaller one.
+grid_overrides:
+  dailydialog:
+    C: [0.3, 1.0]
+
+# Dev selection metric per dataset (the dataset's standard headline metric).
+select_on:
+  meld: weighted_f1
+  dailydialog: micro_f1_no_neutral
+
+# Test splits to report. DailyDialog headline = de-duplicated test set.
+test_splits:
+  meld: [test]
+  dailydialog: [test_dedup, test]
