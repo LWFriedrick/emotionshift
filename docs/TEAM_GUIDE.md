@@ -62,9 +62,16 @@ Shared metrics: MELD weighted-F1; DailyDialog micro-F1 excluding neutral (on
 
 - **Contribution note**: 3–5 lines on exactly what you did (for the group
   reflection document).
-- **AI-use note**: which AI tools you used and for what (for the GAI
-  declaration form).
-- **Signature**: once the reflection document is final.
+- **AI declaration form: one per person.** The "Academic Integrity and AI
+  Disclosure Form" has one student name, one matriculation number and one
+  signature, so **each member fills in and signs their own**; all forms go in
+  our single team submission. On it you tick the phases where you used AI
+  (ideation, planning, generation/execution, editing) and add a shareable link
+  to your **complete, unedited** AI chat. Note: the form allows either the NTU AI
+  Enterprise Suite (Option A) or a third-party tool **explicitly approved by the
+  instructor** (Option B), so we are confirming with the instructor which tools
+  are allowed.
+- **Signature** on the group reflection: once it is final.
 
 ---
 
