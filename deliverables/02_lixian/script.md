@@ -30,7 +30,7 @@ Here is the key finding. Splitting MELD test by emotion shift, B1 scores 62 on s
 
 ## 07 · What the model learned
 
-Because the model is linear, we can read its weights. Surprise is driven by "wow", "whoa" and "really?"; disgust by "ugh" and "ew"; sadness by "sorry"; fear by "scared" and "oh no". So B1 captures emotion that is marked in the words. What it misses: a one-word turn like "Yeah." is always neutral, because tone, sarcasm and the conversation are invisible to it. That is where the context-aware models should gain. [about 17 s]
+Because the model is linear, we can read its weights. Surprise is driven by "wow", "whoa" and "really?"; disgust by "ugh" and "ew"; sadness by "sorry"; fear by "scared" and "uh oh". So B1 captures emotion that is marked in the words. What it misses: a one-word turn like "Yeah." is always neutral, because tone, sarcasm and the conversation are invisible to it. That is where the context-aware models should gain. [about 17 s]
 
 ## 08 · References
 

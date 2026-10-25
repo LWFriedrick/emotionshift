@@ -61,7 +61,7 @@ dist = pd.DataFrame({
 }).reindex(EMOTIONS) * 100
 dist.round(1)"""),
 md("""Both datasets are dominated by *neutral* (MELD 47%, DailyDialog 83%), and fear / disgust
-are around 1–3%. That imbalance is why we report macro-F1 next to the standard metrics
+are rare (about 3% each in MELD, under 0.5% in DailyDialog). That imbalance is why we report macro-F1 next to the standard metrics
 and try class-weighted training below.
 
 An example MELD dialogue with the shift labels every model is scored on:"""),
@@ -75,7 +75,7 @@ md(r"""## 2. Method
 
 **TF-IDF.** Each utterance $d$ becomes a sparse vector with one weight per n-gram $t$:
 
-$$\mathrm{tfidf}(t,d) = \big(1+\log \mathrm{tf}(t,d)\big)\cdot \log\frac{1+N}{1+\mathrm{df}(t)} + 1,$$
+$$\mathrm{tfidf}(t,d) = \big(1+\log \mathrm{tf}(t,d)\big)\cdot \Big(\log\frac{1+N}{1+\mathrm{df}(t)} + 1\Big),$$
 
 then L2-normalised. Word 1–2-grams keep short cues ("oh my", "i love"); `!` and `?` are kept as
 tokens because they matter for emotion. Optionally character 2–5-grams are added (robust to
@@ -121,8 +121,8 @@ code("""fig = P.tuning_chart(grid, "weighted_f1", "word", "MELD dev: stronger re
 fig.savefig(FIG / "meld_tuning.png", dpi=200); plt.show()"""),
 md("""Reading the curve: the best MELD setting is a **linear SVM, C = 0.1, balanced class weights,
 word n-grams**. Small C (strong regularisation) wins because MELD utterances are short and the
-vocabulary is large relative to 10K training examples; balanced weights trade a little
-majority-class accuracy for much better recall on rare emotions. Adding character n-grams
+vocabulary is large relative to 10K training examples. Balanced class weights help a lot:
+at C = 0.1 they raise dev weighted-F1 from 47.5 to 54.9 and macro-F1 from 29.1 to 39.9. Adding character n-grams
 did not improve dev weighted-F1."""),
 code("""dd_grid = pd.read_csv(ROOT / "reports/b1/dailydialog/dev_grid.csv")
 dd_grid.head(5)[["classifier", "C", "class_weight", "features", "micro_f1_no_neutral", "macro_f1"]]"""),
@@ -172,8 +172,7 @@ code("""fig = P.confusion_chart(M.confusion(mt.emotion, mt.pred), "MELD test: re
 fig.savefig(FIG / "meld_confusion.png", dpi=200); plt.show()
 fig = P.per_class_chart(M.per_class_f1(mt.emotion, mt.pred), "MELD test: F1 per emotion")
 fig.savefig(FIG / "meld_per_class.png", dpi=200); plt.show()"""),
-md("""Fear and disgust (about 2% of the data each) remain the weakest classes; most errors go to
-*neutral*, which is also the most common error for the deep models in the literature."""),
+md("""Fear and disgust (about 2–3% of MELD each) remain the weakest classes; most of their errors go to *neutral*."""),
 
 md("""## 6. Inside the model: top n-grams per emotion"""),
 code("""top = models["meld"].top_features(10)
