@@ -16,7 +16,9 @@
  "seeds": [
   0,
   1,
-  2
+  2,
+  3,
+  4
  ],
  "test": {
   "test": {
@@ -29,8 +31,8 @@
     ]
    },
    "macro_f1": {
-    "mean": 0.3839408070004759,
-    "std": 5.551115123125783e-17,
+    "mean": 0.38394080700047584,
+    "std": 0.0,
     "ci95_seed0": [
      0.36129850600219343,
      0.4054240032194765
@@ -55,6 +57,37 @@
     "shift_f1": 0.6853080568720379,
     "predicted_shift_rate": 0.5938841201716738
    }
+  }
+ },
+ "efficiency": {
+  "features": 11261,
+  "parameters": 78834,
+  "model_file_mb": 0.88,
+  "latency_one_utterance": {
+   "n": 500,
+   "median_ms": 0.642875500034279,
+   "p95_ms": 1.04270724997093
+  },
+  "batch_throughput": {
+   "n": 2610,
+   "seconds": 0.03687639100002116,
+   "utterances_per_second": 70776.9911648486
+  },
+  "machine": {
+   "platform": "Linux-6.18.44-fc-v153-x86_64-with-glibc2.39",
+   "processor": "x86_64",
+   "cpu_count": 2,
+   "python": "3.13.17"
+  },
+  "train_seconds": {
+   "mean": 0.36733872939998946,
+   "per_seed": [
+    0.27,
+    0.41,
+    0.32,
+    0.45,
+    0.38
+   ]
   }
  }
 }
