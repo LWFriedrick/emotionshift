@@ -215,9 +215,9 @@ for name in ["meld", "dailydialog"]:
 print(E.machine())
 pd.DataFrame(rows)"""),
 md("""B1 is tiny: under 80K parameters on MELD, a model file under 1 MB, seconds to train, and
-well under a millisecond per utterance, so it costs the demo essentially nothing.
+well under a millisecond per utterance, so it costs the demo essentially nothing."""),
 
-## Takeaways"""),
+md("""## Takeaways
 
 * B1 reaches **56.8 weighted-F1 on MELD** and **53.0 micro-F1 (excl. neutral) on de-duplicated
   DailyDialog**, a strong floor for the transformer models.
