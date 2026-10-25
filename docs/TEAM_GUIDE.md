@@ -78,7 +78,9 @@ Shared metrics: MELD weighted-F1; DailyDialog micro-F1 excluding neutral (on
 ## Where to put it
 
 One folder per person (in the repo's `deliverables/` folder, or the shared
-drive if files are too large for Git):
+drive if files are too large for Git). `deliverables/` is only for collecting
+material for the video; it is removed before the final submission, so the repo
+ends up holding the project's code and results only.
 
 ```
 deliverables/

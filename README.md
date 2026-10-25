@@ -2,7 +2,7 @@
 
 Recognizing, anticipating and explaining emotional turning points in conversation.
 We test where conversational context helps or hurts at the moments a speaker's
-emotion changes, on MELD and DailyDialog. Full plan: [`docs/EmotionShift_proposal.pdf`](docs/EmotionShift_proposal.pdf).
+emotion changes, on MELD and DailyDialog.
 
 **Team members: read the hand-in standards first —
 [`docs/TEAM_GUIDE.pdf`](docs/TEAM_GUIDE.pdf) (2 pages) or [`docs/TEAM_GUIDE.md`](docs/TEAM_GUIDE.md).**
@@ -113,7 +113,8 @@ notebooks/               executed walkthroughs (b1_tfidf_svm.ipynb)
 tests/                   test_data.py, test_tfidf.py
 reports/                 results tables and figures per model (reports/b1/)
 predictions/             shared-format prediction CSVs
-docs/                    proposal, team guide, per-model write-ups
+docs/                    team guide, per-model write-ups
+deliverables/            temporary collection folders for the video (removed before submission)
 ```
 
 ## Data sources

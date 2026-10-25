@@ -125,7 +125,8 @@ story = [
     KeepTogether([
         Paragraph("Where to put it", H2),
         Paragraph("One folder per person, in the repo's <font face='Courier'>deliverables/</font> folder "
-                  "(or the shared drive if files are too large for Git):", BODY),
+                  "(or the shared drive if files are too large for Git). It is only for collecting material for the video "
+                  "and is removed before the final submission.", BODY),
         Paragraph("deliverables/02_lixian/<br/>"
                   "&nbsp;&nbsp;slides.pptx&nbsp;&nbsp;&nbsp;&nbsp;script.md&nbsp;&nbsp;&nbsp;&nbsp;refs.txt"
                   "&nbsp;&nbsp;&nbsp;&nbsp;contribution.txt<br/>"
