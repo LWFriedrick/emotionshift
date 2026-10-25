@@ -7,6 +7,8 @@ data pipeline and evaluation code it needs. Owner: Lixian.
 B1 reads **one utterance at a time**: no dialogue context, no speaker. It is the
 reference point that every context-aware model (#4–#6) should beat.
 
+**Team members: read [`docs/TEAM_GUIDE.md`](docs/TEAM_GUIDE.md) for what to hand in and in which format.**
+
 ## Quick start
 
 ```bash
