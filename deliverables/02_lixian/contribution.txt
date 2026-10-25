@@ -1,0 +1,8 @@
+Lixian: workstream #2 (TF-IDF + linear SVM) and integration lead (demo, slides, video)
+
+- Built the shared data pipeline every model uses: MELD and DailyDialog loaders, the 7-label mapping, shift and shift-type labels, DailyDialog de-duplication, with tests that reproduce the proposal's pilot numbers.
+- Built the shared evaluation code: metrics, stratified scores, dialogue-level bootstrap CIs and efficiency (E9) helpers.
+- Implemented B1 (TF-IDF + linear SVM / logistic regression): tuning on dev over 32 settings, 5 seeds, MELD weighted-F1 56.8 and DailyDialog micro-F1 (excl. neutral) 53.0, shift-vs-stable analysis, notebook, figures and slides.
+- Set up the group GitHub repo and the hand-in standards; integrating the demo, slides and final video.
+
+(Draft: edit before it goes into the group reflection. AI tools used and for what go on the individual AI declaration form.)
