@@ -1,0 +1,11 @@
+model,architecture,seed,best_epoch,dev_score,selection_metric,train_seconds
+b2_bigru,gru,0,6,0.5234789710085749,micro_f1_no_neutral,389.3021058999948
+b2_bigru,gru,1,4,0.5222623345367028,micro_f1_no_neutral,303.9184685
+b2_bigru,gru,2,6,0.5200308166409862,micro_f1_no_neutral,402.50251879999996
+b2_bigru,gru,3,3,0.5212990299451709,micro_f1_no_neutral,268.19542450000154
+b2_bigru,gru,4,7,0.5251711639146194,micro_f1_no_neutral,446.61299969999527
+b2_bilstm,lstm,0,6,0.5322976287816844,micro_f1_no_neutral,437.90444600000046
+b2_bilstm,lstm,1,3,0.5230769230769231,micro_f1_no_neutral,288.20824100000027
+b2_bilstm,lstm,2,7,0.5278810408921933,micro_f1_no_neutral,480.30042929999763
+b2_bilstm,lstm,3,3,0.5238296077604386,micro_f1_no_neutral,293.24393849999615
+b2_bilstm,lstm,4,3,0.5177419354838709,micro_f1_no_neutral,292.9915647000016

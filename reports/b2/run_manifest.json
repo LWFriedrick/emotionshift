@@ -1,0 +1,63 @@
+{
+  "config": {
+    "datasets": [
+      "meld",
+      "dailydialog"
+    ],
+    "architectures": [
+      "gru",
+      "lstm"
+    ],
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "bootstrap": 1000,
+    "threads": 4,
+    "model": {
+      "embedding_dim": 64,
+      "hidden_dim": 64,
+      "max_vocab": 15000,
+      "min_freq": 2,
+      "max_length": 64,
+      "dropout": 0.3,
+      "batch_size": 128,
+      "learning_rate": 0.002,
+      "weight_decay": 0.0001,
+      "epochs": 12,
+      "patience": 3,
+      "class_weight": "sqrt_inverse"
+    },
+    "test_splits": {
+      "meld": [
+        "test"
+      ],
+      "dailydialog": [
+        "test_dedup",
+        "test"
+      ]
+    }
+  },
+  "quick": false,
+  "python": "3.12.3",
+  "source_sha256": {
+    "configs/b2_birnn.yaml": "779656d84ae9dc87886d239c9f00538a99cddee2b9b2f576476fea044dc3974d",
+    "emotionshift/models/birnn.py": "cd483f00c4760ae35c6a9ce00453e266dc5edf437df544ce0b332d12a02e99d4",
+    "scripts/train_b2.py": "a0d86f36414a2c9f8580b99a725a4f6b36ecd6e57ff30ae36f1fefb7377474f1",
+    "emotionshift/data/loaders.py": "9f9966e50d977308fa86631333b95be920bcd09a3c633f0008a831bcbdb876bb",
+    "emotionshift/data/labels.py": "fc59c480d4a51d460c6149c496562fa28fb21ca53a0752bea3fb3033d63d5a58",
+    "emotionshift/eval/metrics.py": "59c097962ccc2f4444ca4855f29e6f2eb7628c8397fa58ecc9c4bd0d7be1398a"
+  },
+  "raw_sha256": {
+    "data/raw/dailydialog/test.json": "9fae2df356dda7ddb12f388cc38e47befc7b24c0e554b81e55068a6d1429884f",
+    "data/raw/dailydialog/train.json": "8142b924bc9e382c54f172b0a8fddf5698f2c9d47479219ed11b6463aedab0b8",
+    "data/raw/dailydialog/valid.json": "0a7678ca703f5aa716519a65087a0a0757508f77e2335c823852a1298eb436b5",
+    "data/raw/dailydialog.zip": "40cea659469e2a62fa36dc0fdc4e543c9ab3f906a3989640fca679f84935ef93",
+    "data/raw/meld/dev_sent_emo.csv": "2e89c6f8aa182d6f62f8c6331aece905ac7273ca4999660bfb5213e1d0370c1c",
+    "data/raw/meld/test_sent_emo.csv": "8d37103938f7067600839fe29d5a114a6cd1bcdafb75bec101e06464c5006888",
+    "data/raw/meld/train_sent_emo.csv": "d2fa2d6529cf03cac2989efec05c9b27d8fd2f4c8fc5974c7ae88aa537fa02db"
+  }
+}

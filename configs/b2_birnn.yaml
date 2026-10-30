@@ -1,0 +1,22 @@
+# All hyperparameters are fixed before test evaluation. Best epoch uses dev only.
+datasets: [meld, dailydialog]
+architectures: [gru, lstm]
+seeds: [0, 1, 2, 3, 4]  # match proposal headline protocol used by B1
+bootstrap: 1000
+threads: 4
+model:
+  embedding_dim: 64
+  hidden_dim: 64
+  max_vocab: 15000
+  min_freq: 2
+  max_length: 64
+  dropout: 0.3
+  batch_size: 128
+  learning_rate: 0.002
+  weight_decay: 0.0001
+  epochs: 12
+  patience: 3
+  class_weight: sqrt_inverse
+test_splits:
+  meld: [test]
+  dailydialog: [test_dedup, test]

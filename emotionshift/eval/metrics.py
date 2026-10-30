@@ -24,6 +24,11 @@ HEADLINE = {"meld": "weighted_f1", "dailydialog": "micro_f1_no_neutral"}
 
 def scores(gold, pred) -> dict:
     gold, pred = np.asarray(gold), np.asarray(pred)
+    # Empty strata occur in small runs; newer sklearn rejects empty arrays.
+    # Preserve zero_division=0 F1 semantics and undefined empty accuracy.
+    if len(gold) == 0 and len(pred) == 0:
+        return {"n": 0, "weighted_f1": 0.0, "macro_f1": 0.0,
+                "micro_f1_no_neutral": 0.0, "accuracy": float("nan")}
     return {
         "n": int(len(gold)),
         "weighted_f1": f1_score(gold, pred, labels=EMOTIONS, average="weighted", zero_division=0),

@@ -13,7 +13,7 @@ emotion changes, on MELD and DailyDialog.
 |---|---|---|---|
 | 1 | Majority / emotional-inertia baseline | open | — |
 | 2 | TF-IDF + linear SVM | Lixian | ✅ done: [`docs/B1_TFIDF_SVM.md`](docs/B1_TFIDF_SVM.md) |
-| 3 | BiGRU / BiLSTM | Thanh | claimed |
+| 3 | BiGRU / BiLSTM | Thanh | ✅ done: [`docs/B2_BIGRU_BILSTM.md`](docs/B2_BIGRU_BILSTM.md) |
 | 4 | Transformer, utterance only (proposal: RoBERTa-base) | KL Y | claimed |
 | 5 | Context-aware RoBERTa | Anqi | claimed |
 | 6 | ShiftAware (speaker / shift-aware) | open | — |
@@ -27,7 +27,7 @@ labels, metrics, efficiency helpers, prediction format, tests.
 ```bash
 uv sync                          # or: pip install numpy pandas scikit-learn scipy joblib pyyaml matplotlib pytest
 bash scripts/fetch_data.sh       # downloads MELD + DailyDialog into data/raw/ (not in Git)
-uv run pytest                    # 15 checks: data rules, pilot numbers, metrics, B1 interface
+uv run pytest                    # data rules, pilot numbers, metrics, model interfaces (B2 needs the rnn extra)
 ```
 
 ```python

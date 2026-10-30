@@ -1,0 +1,10 @@
+{
+  "selected_model": "b2_bilstm",
+  "metric": "micro_f1_no_neutral",
+  "rule": "mean best-dev score across seeds; ties follow config order",
+  "dev_means": {
+    "b2_bilstm": 0.5249654271990221,
+    "b2_bigru": 0.5224484632092108
+  },
+  "test_used_for_selection": false
+}

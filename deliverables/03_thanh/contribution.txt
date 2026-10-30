@@ -1,0 +1,5 @@
+Draft for Thanh to review and adopt only after reviewing the work:
+Implemented utterance-level BiGRU and BiLSTM models and the shared demo interface.
+Ran train/dev/test experiments on MELD and DailyDialog with five seeds.
+Produced prediction CSVs, dialogue bootstrap CIs, shift analyses and efficiency measurements.
+Prepared an executed notebook, figures and result notes with AI assistance.

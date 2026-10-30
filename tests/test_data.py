@@ -105,3 +105,17 @@ def test_metrics_match_sklearn(meld):
     s = scores(t.emotion, pred)
     assert s["weighted_f1"] == pytest.approx(f1_score(t.emotion, pred, average="weighted"))
     assert s["macro_f1"] == pytest.approx(f1_score(t.emotion, pred, labels=EMOTIONS, average="macro"))
+
+
+def test_shared_stratification_with_absent_shift_types():
+    import numpy as np
+    import pandas as pd
+    from emotionshift.eval.metrics import stratified
+
+    frame = pd.DataFrame({"emotion": ["neutral"], "pred": ["neutral"],
+                          "stratum": ["first"], "shift_type": [None]})
+    groups = stratified(frame).set_index("group")
+    assert groups.loc["stratum:first", "weighted_f1"] == 1.0
+    assert groups.loc["stratum:shift", "n"] == 0
+    assert groups.loc["stratum:shift", "macro_f1"] == 0.0
+    assert np.isnan(groups.loc["stratum:shift", "accuracy"])

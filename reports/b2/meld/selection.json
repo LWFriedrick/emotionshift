@@ -1,0 +1,10 @@
+{
+  "selected_model": "b2_bigru",
+  "metric": "weighted_f1",
+  "rule": "mean best-dev score across seeds; ties follow config order",
+  "dev_means": {
+    "b2_bigru": 0.5171896793331182,
+    "b2_bilstm": 0.5114272644804851
+  },
+  "test_used_for_selection": false
+}

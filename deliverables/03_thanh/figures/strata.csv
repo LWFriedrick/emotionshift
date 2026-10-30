@@ -1,0 +1,13 @@
+dataset,model,split,group,n,metric,f1
+meld,b2_bigru,test,stratum:first,746,weighted_f1,0.5898130276074842
+meld,b2_bigru,test,stratum:stable,861,weighted_f1,0.621204563129685
+meld,b2_bigru,test,stratum:shift,1003,weighted_f1,0.4719223061545425
+meld,b2_bilstm,test,stratum:first,746,weighted_f1,0.5915240589585123
+meld,b2_bilstm,test,stratum:stable,861,weighted_f1,0.6333788652964384
+meld,b2_bilstm,test,stratum:shift,1003,weighted_f1,0.4562459800335105
+dailydialog,b2_bigru,test_dedup,stratum:first,1782,micro_f1_no_neutral,0.4421523548733745
+dailydialog,b2_bigru,test_dedup,stratum:stable,4295,micro_f1_no_neutral,0.3017011367126273
+dailydialog,b2_bigru,test_dedup,stratum:shift,942,micro_f1_no_neutral,0.7163677790191502
+dailydialog,b2_bilstm,test_dedup,stratum:first,1782,micro_f1_no_neutral,0.416620990304442
+dailydialog,b2_bilstm,test_dedup,stratum:stable,4295,micro_f1_no_neutral,0.301994838335028
+dailydialog,b2_bilstm,test_dedup,stratum:shift,942,micro_f1_no_neutral,0.7055247951442543

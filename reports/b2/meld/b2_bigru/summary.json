@@ -1,0 +1,227 @@
+{
+  "dataset": "meld",
+  "model": "b2_bigru",
+  "selected_on_dev": "weighted_f1",
+  "selected_architecture": true,
+  "config": {
+    "embedding_dim": 64,
+    "hidden_dim": 64,
+    "max_vocab": 15000,
+    "min_freq": 2,
+    "max_length": 64,
+    "dropout": 0.3,
+    "batch_size": 128,
+    "learning_rate": 0.002,
+    "weight_decay": 0.0001,
+    "epochs": 12,
+    "patience": 3,
+    "class_weight": "sqrt_inverse",
+    "architecture": "gru"
+  },
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "quick_smoke_only": false,
+  "test": {
+    "test": {
+      "weighted_f1": {
+        "mean": 0.5508371605693392,
+        "std": 0.004461428302556502,
+        "ci95_first_seed": [
+          0.5244158409074305,
+          0.5673179370898628
+        ]
+      },
+      "macro_f1": {
+        "mean": 0.3538400670254254,
+        "std": 0.009548254876212279,
+        "ci95_first_seed": [
+          0.3283874316731034,
+          0.374403303143309
+        ]
+      },
+      "micro_f1_no_neutral": {
+        "mean": 0.387626354119314,
+        "std": 0.0066899573365240775,
+        "ci95_first_seed": [
+          0.3595549397454638,
+          0.41783636307558125
+        ]
+      },
+      "accuracy": {
+        "mean": 0.5641379310344827,
+        "std": 0.01403282530851751
+      },
+      "n": 2610,
+      "per_seed": [
+        {
+          "seed": 0,
+          "n": 2610,
+          "weighted_f1": 0.5449051791983032,
+          "macro_f1": 0.35123027452546285,
+          "micro_f1_no_neutral": 0.3886220908755079,
+          "accuracy": 0.5521072796934866,
+          "derived_shift_detection": {
+            "n": 1864,
+            "base_rate": 0.5380901287553648,
+            "shift_f1": 0.6805555555555556,
+            "predicted_shift_rate": 0.6207081545064378
+          }
+        },
+        {
+          "seed": 1,
+          "n": 2610,
+          "weighted_f1": 0.5496924965395211,
+          "macro_f1": 0.3400896049927474,
+          "micro_f1_no_neutral": 0.37840065952184665,
+          "accuracy": 0.5789272030651341,
+          "derived_shift_detection": {
+            "n": 1864,
+            "base_rate": 0.5380901287553648,
+            "shift_f1": 0.6649974962443665,
+            "predicted_shift_rate": 0.5332618025751072
+          }
+        },
+        {
+          "seed": 2,
+          "n": 2610,
+          "weighted_f1": 0.5476468480593096,
+          "macro_f1": 0.36216402800088615,
+          "micro_f1_no_neutral": 0.38543582199337995,
+          "accuracy": 0.5471264367816092,
+          "derived_shift_detection": {
+            "n": 1864,
+            "base_rate": 0.5380901287553648,
+            "shift_f1": 0.7006311992786294,
+            "predicted_shift_rate": 0.651824034334764
+          }
+        },
+        {
+          "seed": 3,
+          "n": 2610,
+          "weighted_f1": 0.5557063031073083,
+          "macro_f1": 0.3489593290561663,
+          "micro_f1_no_neutral": 0.38656838656838655,
+          "accuracy": 0.581992337164751,
+          "derived_shift_detection": {
+            "n": 1864,
+            "base_rate": 0.5380901287553648,
+            "shift_f1": 0.6699850671976108,
+            "predicted_shift_rate": 0.5396995708154506
+          }
+        },
+        {
+          "seed": 4,
+          "n": 2610,
+          "weighted_f1": 0.5562349759422537,
+          "macro_f1": 0.3667570985518643,
+          "micro_f1_no_neutral": 0.3991048116374487,
+          "accuracy": 0.560536398467433,
+          "derived_shift_detection": {
+            "n": 1864,
+            "base_rate": 0.5380901287553648,
+            "shift_f1": 0.6948529411764706,
+            "predicted_shift_rate": 0.6292918454935622
+          }
+        }
+      ],
+      "derived_shift_detection": {
+        "n": 1864,
+        "base_rate": 0.5380901287553648,
+        "shift_f1": 0.6805555555555556,
+        "predicted_shift_rate": 0.6207081545064378
+      },
+      "derived_shift_detection_seed": 0,
+      "ci_seed": 0,
+      "bootstrap_unit": "dialogue",
+      "bootstrap_resamples": 1000
+    }
+  },
+  "dev": [
+    {
+      "model": "b2_bigru",
+      "architecture": "gru",
+      "seed": 0,
+      "best_epoch": 10,
+      "dev_score": 0.5224002394120522,
+      "selection_metric": "weighted_f1",
+      "train_seconds": 44.994664300000295
+    },
+    {
+      "model": "b2_bigru",
+      "architecture": "gru",
+      "seed": 1,
+      "best_epoch": 4,
+      "dev_score": 0.5106112122924799,
+      "selection_metric": "weighted_f1",
+      "train_seconds": 24.048320599998988
+    },
+    {
+      "model": "b2_bigru",
+      "architecture": "gru",
+      "seed": 2,
+      "best_epoch": 7,
+      "dev_score": 0.521152619889844,
+      "selection_metric": "weighted_f1",
+      "train_seconds": 35.417544000003545
+    },
+    {
+      "model": "b2_bigru",
+      "architecture": "gru",
+      "seed": 3,
+      "best_epoch": 6,
+      "dev_score": 0.509020044529391,
+      "selection_metric": "weighted_f1",
+      "train_seconds": 30.61099639999884
+    },
+    {
+      "model": "b2_bigru",
+      "architecture": "gru",
+      "seed": 4,
+      "best_epoch": 10,
+      "dev_score": 0.5227642805418246,
+      "selection_metric": "weighted_f1",
+      "train_seconds": 43.077736999999615
+    }
+  ],
+  "efficiency": {
+    "parameters": 223623,
+    "vocabulary_size": 2700,
+    "model_file_mb": 0.951054,
+    "model_path": "models/b2_bigru_meld_seed0.pt",
+    "latency_one_utterance": {
+      "n": 500,
+      "median_ms": 0.9774999962246511,
+      "p95_ms": 2.1194699980696883
+    },
+    "batch_throughput": {
+      "n": 2610,
+      "seconds": 0.16307310000411235,
+      "utterances_per_second": 16005.092194446426
+    },
+    "machine": {
+      "platform": "Windows-11-10.0.26300-SP0",
+      "processor": "Intel64 Family 6 Model 186 Stepping 2, GenuineIntel",
+      "cpu_count": 12,
+      "python": "3.12.3"
+    },
+    "torch": "2.15.0+cpu",
+    "threads": 4,
+    "inference_device": "cpu",
+    "training_device": "cpu",
+    "train_seconds": {
+      "per_seed": [
+        44.994664300000295,
+        24.048320599998988,
+        35.417544000003545,
+        30.61099639999884,
+        43.077736999999615
+      ],
+      "mean": 35.62985246000026
+    }
+  }
+}

@@ -1,0 +1,15 @@
+{
+  "status": "passed",
+  "prediction_csvs": 30,
+  "expected_prediction_csvs": 30,
+  "executed_notebook_cells": 9,
+  "shared_data_rows_and_metrics_verified": true,
+  "checkpoint_limit_mb": 50,
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ]
+}
