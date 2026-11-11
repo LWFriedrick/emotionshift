@@ -1,5 +1,5 @@
-Draft for Thanh to review and adopt only after reviewing the work:
-Implemented utterance-level BiGRU and BiLSTM models and the shared demo interface.
-Ran train/dev/test experiments on MELD and DailyDialog with five seeds.
-Produced prediction CSVs, dialogue bootstrap CIs, shift analyses and efficiency measurements.
-Prepared an executed notebook, figures and result notes with AI assistance.
+Implemented BiGRU and BiLSTM models for utterance-level emotion recognition using the shared data pipeline.
+Trained and evaluated both architectures on MELD and DailyDialog across five random seeds.
+Produced prediction files, performance metrics, confidence intervals, and stable-versus-shift analyses.
+Prepared an executed notebook and saved-model demonstration interface.
+Created presentation slides, figures, narration script, and recording to explain the methods and findings.
