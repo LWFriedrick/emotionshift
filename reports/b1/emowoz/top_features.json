@@ -1,0 +1,86 @@
+{
+  "abusive": [
+    "word__for cambridge",
+    "word__side i",
+    "word__train for",
+    "word__very good",
+    "word__need to",
+    "word__cambridge please",
+    "word__yes confirm",
+    "word__nothing",
+    "word__a restauraunt",
+    "word__dont"
+  ],
+  "apologetic": [
+    "word__sorry",
+    "word__thanks how",
+    "char__sorr",
+    "char__sorry",
+    "char__orry",
+    "char__sor",
+    "char__rry",
+    "char__ sorr",
+    "char__orr",
+    "char__ sor"
+  ],
+  "dissatisfied": [
+    "word__about free",
+    "word__like i",
+    "word__about wednesday",
+    "word__are no",
+    "word__places the",
+    "word__you sure",
+    "word__just please",
+    "word__cambridge the",
+    "word__it called",
+    "word__fee type"
+  ],
+  "excited": [
+    "word__!",
+    "word__be entertainment",
+    "word__fun",
+    "word__great how",
+    "word__you yes",
+    "word__serving thai",
+    "word__so i",
+    "word__interesting i",
+    "word__number address",
+    "char__! "
+  ],
+  "fearful": [
+    "word__night then",
+    "word__about asian",
+    "word__too bad",
+    "word__stars instead",
+    "word__hmm what",
+    "word__try 19",
+    "word__police please",
+    "word__any hospital",
+    "word__bummer",
+    "word__help i"
+  ],
+  "neutral": [
+    "word__no thank",
+    "char__. ",
+    "word__no thanks",
+    "word__and should",
+    "char__ t",
+    "char__th",
+    "word__m looking",
+    "word__not really",
+    "word__sounds great",
+    "char__? "
+  ],
+  "satisfied": [
+    "word__you for",
+    "word__you i",
+    "word__!",
+    "word__thanks for",
+    "word__great i",
+    "char__than",
+    "char__han",
+    "char__ank",
+    "char__ than",
+    "char__hank"
+  ]
+}

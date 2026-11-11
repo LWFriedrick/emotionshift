@@ -1,0 +1,12 @@
+{
+  "config": {
+    "C": 0.3,
+    "class_weight": "balanced",
+    "features": "word+char",
+    "classifier": "svm"
+  },
+  "selected_on": "dev only",
+  "metric": "weighted_f1_no_neutral",
+  "dev_score": 0.773310167554837,
+  "test_used_for_selection": false
+}

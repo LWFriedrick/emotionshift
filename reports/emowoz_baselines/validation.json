@@ -1,0 +1,12 @@
+{
+  "full_suite_before_training": "152 passed, 3 skipped",
+  "native_tests_cuda": "4 passed",
+  "artifact_audit": "15 prediction CSVs and checkpoint round trips passed",
+  "notebook": "executed, no errors, code snippets <=15 lines",
+  "english_files_scanned": 103,
+  "existing_dataset_reports": "unchanged",
+  "commit_push": "not performed",
+  "full_suite_final": "152 passed, 3 skipped in 66.25s",
+  "test_command": "uv run --extra rnn python -X utf8 -m pytest -q",
+  "windows_encoding_note": "Default GBK invocation fails on an existing MELD JSON file; UTF-8 mode passes without loader changes."
+}

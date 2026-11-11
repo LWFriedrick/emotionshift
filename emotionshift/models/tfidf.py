@@ -86,8 +86,9 @@ def _classifier(cfg: TfidfConfig):
 
 
 class TfidfBaseline:
-    def __init__(self, cfg: TfidfConfig | None = None):
+    def __init__(self, cfg: TfidfConfig | None = None, *, labels=None):
         self.cfg = cfg or TfidfConfig()
+        self.labels = list(EMOTIONS if labels is None else labels)
         self.pipe = Pipeline([("tfidf", _features(self.cfg)), ("clf", _classifier(self.cfg))])
 
     def fit(self, texts, labels):
@@ -103,13 +104,20 @@ class TfidfBaseline:
         (good for ranking and display, not calibrated)."""
         clf = self.pipe.named_steps["clf"]
         X = self.pipe.named_steps["tfidf"].transform(list(texts))
-        raw = (
-            clf.predict_proba(X)
-            if hasattr(clf, "predict_proba")
-            else softmax(clf.decision_function(X), axis=1)
-        )
-        order = [list(clf.classes_).index(e) for e in EMOTIONS]
-        return raw[:, order]
+        if hasattr(clf, "predict_proba"):
+            raw = clf.predict_proba(X)
+        else:
+            margin = clf.decision_function(X)
+            if margin.ndim == 1:
+                # Binary LinearSVC exposes one margin; keep both class columns.
+                margin = np.column_stack([-margin / 2, margin / 2])
+            raw = softmax(margin, axis=1)
+        aligned = np.zeros((len(raw), len(self.labels)), dtype=raw.dtype)
+        for column, label in enumerate(clf.classes_):
+            if label not in self.labels:
+                raise ValueError(f"Fitted label {label!r} is outside the configured label space")
+            aligned[:, self.labels.index(label)] = raw[:, column]
+        return aligned
 
     def top_features(self, k: int = 10) -> dict[str, list[str]]:
         """Highest-weighted n-grams per emotion -- for the interpretation slide."""
@@ -122,11 +130,11 @@ class TfidfBaseline:
         return out
 
     def save(self, path):
-        joblib.dump({"cfg": self.cfg, "pipe": self.pipe}, path)
+        joblib.dump({"cfg": self.cfg, "pipe": self.pipe, "labels": self.labels}, path)
 
     @classmethod
     def load(cls, path) -> TfidfBaseline:
         obj = joblib.load(path)
-        m = cls(obj["cfg"])
+        m = cls(obj["cfg"], labels=obj.get("labels", EMOTIONS))
         m.pipe = obj["pipe"]
         return m

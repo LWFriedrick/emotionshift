@@ -1,0 +1,75 @@
+{
+  "family": "b2",
+  "config": {
+    "dataset": "emowoz",
+    "seeds": [
+      0,
+      1,
+      2,
+      3,
+      4
+    ],
+    "bootstrap": 1000,
+    "threads": 4,
+    "b1": {
+      "C": [
+        0.1,
+        0.3,
+        1.0,
+        3.0
+      ],
+      "class_weight": [
+        null,
+        "balanced"
+      ],
+      "features": [
+        "word",
+        "word+char"
+      ]
+    },
+    "b2": {
+      "architectures": [
+        "gru",
+        "lstm"
+      ],
+      "embedding_dim": 64,
+      "hidden_dim": 64,
+      "max_vocab": 15000,
+      "min_freq": 2,
+      "max_length": 64,
+      "dropout": 0.3,
+      "batch_size": 128,
+      "learning_rate": 0.002,
+      "weight_decay": 0.0001,
+      "epochs": 12,
+      "patience": 3,
+      "class_weight": "sqrt_inverse"
+    }
+  },
+  "labels": [
+    "neutral",
+    "fearful",
+    "dissatisfied",
+    "apologetic",
+    "abusive",
+    "excited",
+    "satisfied"
+  ],
+  "selection_metric": "weighted_f1_no_neutral",
+  "python": "3.12.10",
+  "torch": "2.6.0+cu126",
+  "source_sha256_lf": {
+    "scripts/train_emowoz_baselines.py": "8e342e1c459c2d075ca57725682f1e6626657c2925f26ce84b9412fd40b81b43",
+    "emotionshift/data/loaders.py": "9cfdd153f1a43cfa4ac070775512cf0f2886b58deef6671262ea639c9476b10e",
+    "emotionshift/data/labels.py": "faca85f0da9d23d47da28ad85a68f525d044a55cb7d7bd000f3e5fb16398c7b3",
+    "emotionshift/eval/metrics.py": "bac1e3d250fe198595ba28a41f48845b05c3a9863735cf17ffb4ac1d7afefaa0",
+    "emotionshift/models/birnn.py": "480c8d51657b34668d729669216f2f1f16ef07822bc429862532632444255ab9"
+  },
+  "raw_sha256": {
+    "data-split.json": "15a4060a7dd005585af4f64905392724e61d921e74404cc5074fca4069c05c91",
+    "emowoz-dialmage.json": "1035f0cf408a513192a08e7e830d2aac50dc74e13c424830b6cd986328a75160",
+    "emowoz-multiwoz.json": "b1805796d10b260ce6d5a18d9259dea7ea2ce58bf8516fa53ec00349e8e0ec58"
+  },
+  "device": "cuda",
+  "gpu": "NVIDIA GeForce RTX 4050 Laptop GPU"
+}

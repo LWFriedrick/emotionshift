@@ -1,0 +1,23 @@
+# In-domain native-label extension; original MELD/DailyDialog configs unchanged.
+dataset: emowoz
+seeds: [0, 1, 2, 3, 4]
+bootstrap: 1000
+threads: 4
+b1:
+  C: [0.1, 0.3, 1.0, 3.0]
+  class_weight: [null, balanced]
+  features: [word, word+char]
+b2:
+  architectures: [gru, lstm]
+  embedding_dim: 64
+  hidden_dim: 64
+  max_vocab: 15000
+  min_freq: 2
+  max_length: 64
+  dropout: 0.3
+  batch_size: 128
+  learning_rate: 0.002
+  weight_decay: 0.0001
+  epochs: 12
+  patience: 3
+  class_weight: sqrt_inverse

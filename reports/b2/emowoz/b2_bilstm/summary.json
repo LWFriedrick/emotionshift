@@ -1,0 +1,121 @@
+{
+  "dataset": "emowoz",
+  "model": "b2_bilstm",
+  "labels": [
+    "neutral",
+    "fearful",
+    "dissatisfied",
+    "apologetic",
+    "abusive",
+    "excited",
+    "satisfied"
+  ],
+  "headline_metric": "weighted_f1_no_neutral",
+  "selection": {
+    "selected_model": "b2_bilstm",
+    "dev_means": {
+      "b2_bilstm": 0.7817279462693211,
+      "b2_bigru": 0.7812143121686612
+    },
+    "metric": "weighted_f1_no_neutral",
+    "rule": "mean best-dev across five seeds; config-order ties",
+    "test_used_for_selection": false
+  },
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "test": {
+    "test": {
+      "n": 8634,
+      "accuracy": {
+        "mean": 0.8593467685892981,
+        "std": 0.004599486093711027,
+        "ci95_seed0": [
+          0.8472770510932569,
+          0.8702947121452261
+        ]
+      },
+      "weighted_f1": {
+        "mean": 0.8640234947309666,
+        "std": 0.002660442464201265,
+        "ci95_seed0": [
+          0.8521424516654188,
+          0.8749140460140897
+        ]
+      },
+      "macro_f1": {
+        "mean": 0.5470079132981589,
+        "std": 0.014632962549109004,
+        "ci95_seed0": [
+          0.5057270679584213,
+          0.5750272904822513
+        ]
+      },
+      "micro_f1_no_neutral": {
+        "mean": 0.7623380524037281,
+        "std": 0.006384137979338151,
+        "ci95_seed0": [
+          0.7420364554782223,
+          0.7751702369918928
+        ]
+      },
+      "weighted_f1_no_neutral": {
+        "mean": 0.7700599064765978,
+        "std": 0.001909378729109124,
+        "ci95_seed0": [
+          0.7488935203032075,
+          0.7851738979257136
+        ]
+      },
+      "macro_f1_no_neutral": {
+        "mean": 0.48734944117856704,
+        "std": 0.01655109317238683,
+        "ci95_seed0": [
+          0.43939511056577274,
+          0.5194574319582933
+        ]
+      },
+      "derived_shift_f1": 0.7412492857268816
+    }
+  },
+  "efficiency": {
+    "latency_one_utterance": {
+      "n": 100,
+      "median_ms": 3.1045000068843365,
+      "p95_ms": 6.144725008925888
+    },
+    "batch_throughput": {
+      "n": 8634,
+      "seconds": 1.4078971999988426,
+      "utterances_per_second": 6132.550018571738
+    },
+    "machine": {
+      "platform": "Windows-11-10.0.26200-SP0",
+      "processor": "Intel64 Family 6 Model 183 Stepping 1, GenuineIntel",
+      "cpu_count": 32,
+      "python": "3.12.10"
+    },
+    "inference_device": "cpu",
+    "train_seconds": {
+      "0": 238.2421748000197,
+      "1": 184.12423719998333,
+      "2": 218.68930910000927,
+      "3": 188.48716620000778,
+      "4": 120.2239899999986
+    },
+    "parameters": 223623,
+    "model_file_mb": 0.948246,
+    "inference_torch": "2.6.0+cu126",
+    "timing_note": "Trained checkpoints, same CPU runtime, after all training completed"
+  },
+  "bootstrap": {
+    "unit": "dialogue",
+    "n": 1000,
+    "seed": 0,
+    "checkpoint_seed": 0
+  }
+}

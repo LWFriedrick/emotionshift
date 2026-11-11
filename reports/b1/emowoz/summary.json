@@ -1,0 +1,123 @@
+{
+  "dataset": "emowoz",
+  "model": "b1",
+  "labels": [
+    "neutral",
+    "fearful",
+    "dissatisfied",
+    "apologetic",
+    "abusive",
+    "excited",
+    "satisfied"
+  ],
+  "headline_metric": "weighted_f1_no_neutral",
+  "selection": {
+    "config": {
+      "C": 0.3,
+      "class_weight": "balanced",
+      "features": "word+char",
+      "classifier": "svm"
+    },
+    "selected_on": "dev only",
+    "metric": "weighted_f1_no_neutral",
+    "dev_score": 0.773310167554837,
+    "test_used_for_selection": false
+  },
+  "seeds": [
+    0,
+    1,
+    2,
+    3,
+    4
+  ],
+  "test": {
+    "test": {
+      "n": 8634,
+      "accuracy": {
+        "mean": 0.8669214732453092,
+        "std": 0.0,
+        "ci95_seed0": [
+          0.8552582259260145,
+          0.8778750936604731
+        ]
+      },
+      "weighted_f1": {
+        "mean": 0.8668734469829259,
+        "std": 0.0,
+        "ci95_seed0": [
+          0.8544705627469458,
+          0.8779410948105619
+        ]
+      },
+      "macro_f1": {
+        "mean": 0.5339181993998289,
+        "std": 0.0,
+        "ci95_seed0": [
+          0.495971569305234,
+          0.5729819485126932
+        ]
+      },
+      "micro_f1_no_neutral": {
+        "mean": 0.7670871775560159,
+        "std": 0.0,
+        "ci95_seed0": [
+          0.7494784493715623,
+          0.7841965629996771
+        ]
+      },
+      "weighted_f1_no_neutral": {
+        "mean": 0.764975351412958,
+        "std": 0.0,
+        "ci95_seed0": [
+          0.7455742665788962,
+          0.7827769507220911
+        ]
+      },
+      "macro_f1_no_neutral": {
+        "mean": 0.4710270047052811,
+        "std": 5.551115123125783e-17,
+        "ci95_seed0": [
+          0.4270439575407171,
+          0.5166882483082919
+        ]
+      },
+      "derived_shift_f1": 0.7436270939548434
+    }
+  },
+  "efficiency": {
+    "latency_one_utterance": {
+      "n": 100,
+      "median_ms": 1.9457000162219629,
+      "p95_ms": 2.2309599953587167
+    },
+    "batch_throughput": {
+      "n": 8634,
+      "seconds": 1.0688626999908593,
+      "utterances_per_second": 8077.744690757603
+    },
+    "machine": {
+      "platform": "Windows-11-10.0.26200-SP0",
+      "processor": "Intel64 Family 6 Model 183 Stepping 1, GenuineIntel",
+      "cpu_count": 32,
+      "python": "3.12.10"
+    },
+    "inference_device": "cpu",
+    "train_seconds": {
+      "0": 30.90073919997667,
+      "1": 43.07772550001391,
+      "2": 31.11697319999803,
+      "3": 31.24739679999766,
+      "4": 31.184698899975047
+    },
+    "parameters": 323638,
+    "model_file_mb": 3.548094,
+    "inference_torch": "2.6.0+cu126",
+    "timing_note": "Trained checkpoints, same CPU runtime, after all training completed"
+  },
+  "bootstrap": {
+    "unit": "dialogue",
+    "n": 1000,
+    "seed": 0,
+    "checkpoint_seed": 0
+  }
+}

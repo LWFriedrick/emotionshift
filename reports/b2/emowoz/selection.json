@@ -1,0 +1,10 @@
+{
+  "selected_model": "b2_bilstm",
+  "dev_means": {
+    "b2_bilstm": 0.7817279462693211,
+    "b2_bigru": 0.7812143121686612
+  },
+  "metric": "weighted_f1_no_neutral",
+  "rule": "mean best-dev across five seeds; config-order ties",
+  "test_used_for_selection": false
+}

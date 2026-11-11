@@ -1,0 +1,9 @@
+{
+  "model": "b2_bilstm",
+  "seed": 0,
+  "best_epoch": 10,
+  "dev_score": 0.7849520435020074,
+  "train_seconds": 238.2421748000197,
+  "protocol_signature": "c630f9a6ace933342d9cafeca76b73e13fabec7562dc3bd5a0e3762f0456f0fd",
+  "device": "cuda"
+}

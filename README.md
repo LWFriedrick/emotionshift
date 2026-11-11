@@ -211,6 +211,16 @@ uv sync --extra train
 uv run --extra train pytest
 ```
 
+## Native EmoWOZ SVM and recurrent baselines
+
+The workstream 2/3 extension trains TF-IDF/SVM, BiGRU and BiLSTM on the
+native EmoWOZ labels using official splits and five seeds. See the
+[protocol and reproduction guide](docs/EMOWOZ_B1_B2.md),
+[audited results](reports/emowoz_baselines/results.md) and
+[executed notebook](notebooks/emowoz_b1_b2.ipynb).
+The original model authors retain credit; 13ray contributes this dataset
+extension. Existing MELD/DailyDialog results are preserved.
+
 ## Development checks
 
 Use the tools directly from the repository root:

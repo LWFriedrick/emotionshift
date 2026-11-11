@@ -1,0 +1,9 @@
+{
+  "model": "b2_bigru",
+  "seed": 2,
+  "best_epoch": 9,
+  "dev_score": 0.7861396291114904,
+  "train_seconds": 181.57735720000346,
+  "protocol_signature": "c630f9a6ace933342d9cafeca76b73e13fabec7562dc3bd5a0e3762f0456f0fd",
+  "device": "cuda"
+}
