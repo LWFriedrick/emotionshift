@@ -34,4 +34,4 @@ All 20 fits together took 65.4 minutes on this CPU; test inference, bootstrap re
 
 Both models learn embeddings from scratch and observe only the current utterance (up to 64 tokens). They use no conversation history, speakers, audio or images. A stable/shift gap is descriptive and does not establish that context will improve a model. DailyDialog micro F1 excludes neutral, so differences in emotion prevalence between strata also affect the comparison; a higher shift score is not evidence of shift forecasting. Softmax probabilities have not been calibrated.
 
-Figures and matching CSVs are in figures/. Code snippets are named in the executed notebook. Thanh will prepare the slides and video separately.
+Figures and matching CSVs are in figures/. Code snippets are named in the executed notebook. 
