@@ -30,7 +30,7 @@ from pathlib import Path
 import numpy as np
 import pandas as pd
 
-from emotionshift.data.labels import EMOTIONS
+from emotionshift.data.labels import emotions
 from emotionshift.data.shifts import SHIFT_TYPES, STRATA
 from emotionshift.eval.metrics import HEADLINE
 
@@ -40,11 +40,24 @@ REPORTS = ROOT / "reports"
 OUT = REPORTS / "summary"
 
 # Headline split per dataset (DailyDialog uses the de-duplicated test set, R4).
-DATASETS = {"meld": "test", "dailydialog": "test_dedup"}
+# EmoWOZ is scored on its own seven labels (labelled user turns only), so its numbers
+# are not comparable with the other two datasets.
+DATASETS = {"meld": "test", "dailydialog": "test_dedup", "emowoz": "test"}
+LABELS = {d: emotions(d) for d in DATASETS}
+assert all(labels[0] == "neutral" for labels in LABELS.values())  # batch_scores relies on it
 METRICS = ("weighted_f1", "macro_f1", "micro_f1_no_neutral")
+EMOWOZ_METRICS = ("weighted_f1_no_neutral", "macro_f1_no_neutral", *METRICS)
+# Second column of the tables: macro-F1, without neutral where the headline drops it too.
+SECOND = {"meld": "macro_f1", "dailydialog": "macro_f1", "emowoz": "macro_f1_no_neutral"}
+SHORT = {
+    "weighted_f1": "weighted-F1",
+    "macro_f1": "macro-F1",
+    "micro_f1_no_neutral": "micro-F1 without neutral",
+    "weighted_f1_no_neutral": "weighted-F1 without neutral",
+    "macro_f1_no_neutral": "macro-F1 without neutral",
+}
 KEYS = ["dataset", "split", "dialogue_id", "turn"]
 TBD = "[TBD]"
-K = len(EMOTIONS)
 
 
 @dataclass(frozen=True)
@@ -72,12 +85,19 @@ ENTRIES = [
     Entry("b4", "RoBERTa-base with context", 5, _same("b4")),
     # B4+ (fallback improvement R3) was trained on MELD only.
     Entry("b4plus", "RoBERTa-base with context, class-weighted (B4+)", 5, {"meld": "b4plus"}),
-    # Variants chosen on dev only, see reports/shiftaware/selection.md.
+    # Variants chosen on dev only, see reports/shiftaware/selection.md. The EmoWOZ runs
+    # are exploratory (three seeds: 0, 1, 42); the variant is the dev-best of the three
+    # that have three seeds (mean dev weighted-F1 without neutral 81.62, against 81.01
+    # for 0layer-hm-gate2 and 77.45 for 0layer-hm).
     Entry(
         "shiftaware",
         "ShiftAware",
         6,
-        {"meld": "shiftaware_cw-sqrt", "dailydialog": "shiftaware"},
+        {
+            "meld": "shiftaware_cw-sqrt",
+            "dailydialog": "shiftaware",
+            "emowoz": "shiftaware_tf-d768-2layer-hm",
+        },
     ),
     Entry(
         "inertia_oracle", "Inertia (gold history, reference)", 1, _same("b0_inertia_oracle"), True
@@ -102,14 +122,16 @@ PAIRS = [
 # ---------------------------------------------------------------------- scoring
 
 
-def batch_scores(cm: np.ndarray, labels=EMOTIONS) -> dict[str, np.ndarray]:
-    """`metrics.scores_from_confusion` over the leading axes of ``cm`` (..., k, k)."""
+def batch_scores(cm: np.ndarray) -> dict[str, np.ndarray]:
+    """`metrics.scores_from_confusion` over the leading axes of ``cm`` (..., k, k).
+
+    Label 0 is neutral in every label set (asserted at import)."""
     cm = cm.astype(float)
     tp = np.diagonal(cm, axis1=-2, axis2=-1)
     support, predicted = cm.sum(-1), cm.sum(-2)
     with np.errstate(divide="ignore", invalid="ignore"):
         f1 = np.nan_to_num(2 * tp / (support + predicted))
-    emo = np.array([lab != "neutral" for lab in labels])
+    emo = np.arange(cm.shape[-1]) != 0
     tp_e, pred_e, sup_e = (
         tp[..., emo].sum(-1),
         predicted[..., emo].sum(-1),
@@ -119,10 +141,17 @@ def batch_scores(cm: np.ndarray, labels=EMOTIONS) -> dict[str, np.ndarray]:
     with np.errstate(divide="ignore", invalid="ignore"):
         micro = np.where(pred_e + sup_e > 0, 2 * tp_e / (pred_e + sup_e), 0.0)
         weighted = np.where(total > 0, (f1 * support).sum(-1) / total, 0.0)
-    return {"weighted_f1": weighted, "macro_f1": f1.mean(-1), "micro_f1_no_neutral": micro}
+        weighted_e = np.where(sup_e > 0, (f1 * support)[..., emo].sum(-1) / sup_e, 0.0)
+    return {
+        "weighted_f1": weighted,
+        "macro_f1": f1.mean(-1),
+        "micro_f1_no_neutral": micro,
+        "weighted_f1_no_neutral": weighted_e,
+        "macro_f1_no_neutral": f1[..., emo].mean(-1),
+    }
 
 
-def dialogue_counts(gold, preds, dialogue, keep, n_dialogues, k=K) -> np.ndarray:
+def dialogue_counts(gold, preds, dialogue, keep, n_dialogues, k=len(LABELS["meld"])) -> np.ndarray:
     """Confusion counts per dialogue and seed: (dialogues, seeds, k * k), rows in ``keep`` only."""
     rows = np.flatnonzero(keep)
     out = np.zeros((n_dialogues, len(preds), k * k))
@@ -132,8 +161,9 @@ def dialogue_counts(gold, preds, dialogue, keep, n_dialogues, k=K) -> np.ndarray
     return out
 
 
-def _seed_mean(flat_cm: np.ndarray, metric: str, k=K) -> np.ndarray:
+def _seed_mean(flat_cm: np.ndarray, metric: str) -> np.ndarray:
     """flat_cm (..., seeds, k * k) -> metric averaged over seeds (...)."""
+    k = round(flat_cm.shape[-1] ** 0.5)
     cm = flat_cm.reshape(*flat_cm.shape[:-1], k, k)
     return batch_scores(cm)[metric].mean(-1)
 
@@ -184,7 +214,7 @@ def _files(prefix: str, dataset: str, split: str) -> list[Path]:
 
 
 def load(dataset: str, split: str) -> Loaded:
-    index = {lab: i for i, lab in enumerate(EMOTIONS)}
+    index = {lab: i for i, lab in enumerate(LABELS[dataset])}
     anchor = _files("b1", dataset, split)
     if not anchor:
         raise FileNotFoundError(f"no B1 predictions for {dataset} {split}; B1 is the row anchor")
@@ -224,7 +254,8 @@ def _groups(base: pd.DataFrame) -> list[tuple[str, np.ndarray]]:
     groups = [("all", np.ones(len(base), bool))]
     groups += [(s, (base["stratum"] == s).to_numpy()) for s in STRATA]
     groups += [(f"shift:{t}", (base["shift_type"] == t).to_numpy()) for t in SHIFT_TYPES]
-    # MELD has one positive emotion, so within_positive is empty there.
+    # Empty groups are dropped: within_positive on MELD (one positive emotion), surprise
+    # on EmoWOZ (no surprise label).
     return [(name, mask) for name, mask in groups if mask.any()]
 
 
@@ -232,7 +263,7 @@ def tables(data: dict[str, Loaded], n_boot: int, n_perm: int, seed: int = 0):
     rng = np.random.default_rng(seed)
     e1, e2, paired = [], [], []
     for dataset, loaded in data.items():
-        headline = HEADLINE[dataset]
+        headline, second, k = HEADLINE[dataset], SECOND[dataset], len(LABELS[dataset])
         n_dialogues = int(loaded.dialogue.max()) + 1
         groups = dict(_groups(loaded.base))
         counts = {}  # (key, group) -> per-dialogue counts
@@ -244,11 +275,11 @@ def tables(data: dict[str, Loaded], n_boot: int, n_perm: int, seed: int = 0):
                 continue
             seeds, codes = loaded.preds[entry.key]
             for group, mask in groups.items():
-                c = dialogue_counts(loaded.gold, codes, loaded.dialogue, mask, n_dialogues)
+                c = dialogue_counts(loaded.gold, codes, loaded.dialogue, mask, n_dialogues, k)
                 counts[entry.key, group] = c
-                per_seed = batch_scores(c.sum(0).reshape(len(seeds), K, K))
+                per_seed = batch_scores(c.sum(0).reshape(len(seeds), k, k))
                 row = {"dataset": dataset, "model": entry.key, "group": group, "n": int(mask.sum())}
-                for metric in (headline, "macro_f1"):
+                for metric in (headline, second):
                     row[f"{metric}_mean"] = 100 * per_seed[metric].mean()
                     row[f"{metric}_sd"] = (
                         100 * per_seed[metric].std(ddof=1) if len(seeds) > 1 else np.nan
@@ -261,8 +292,8 @@ def tables(data: dict[str, Loaded], n_boot: int, n_perm: int, seed: int = 0):
                 "seeds": len(seeds),
                 "seed_list": " ".join(map(str, seeds)),
             }
-            per_seed = batch_scores(c.sum(0).reshape(len(seeds), K, K))
-            for metric in METRICS:
+            per_seed = batch_scores(c.sum(0).reshape(len(seeds), k, k))
+            for metric in EMOWOZ_METRICS if dataset == "emowoz" else METRICS:
                 row[f"{metric}_mean"] = 100 * per_seed[metric].mean()
                 row[f"{metric}_sd"] = (
                     100 * per_seed[metric].std(ddof=1) if len(seeds) > 1 else np.nan
@@ -278,7 +309,7 @@ def tables(data: dict[str, Loaded], n_boot: int, n_perm: int, seed: int = 0):
                 ("all", headline),
                 ("stable", headline),
                 ("shift", headline),
-                ("all", "macro_f1"),
+                ("all", second),
             ]:
                 # Both pre-registered targets are on MELD.
                 row = {
@@ -411,7 +442,12 @@ def _status(e1, e2, paired) -> list[str]:
     proxy = pair("b3", "shiftaware", "shift", "weighted_f1")
     r3 = pair("b3", "b4plus", "all", "macro_f1")
     h1s, h1t = pair("b3", "b4", "stable", "weighted_f1"), pair("b3", "b4", "shift", "weighted_f1")
-    main = e1[e1.model.isin([e.key for e in ENTRIES if not e.reference]) & (e1.seeds > 0)]
+    # MELD and DailyDialog carry the hypotheses; EmoWOZ is an extension (see its note).
+    main = e1[
+        e1.model.isin([e.key for e in ENTRIES if not e.reference])
+        & (e1.seeds > 0)
+        & (e1.dataset != "emowoz")
+    ]
     lines = [
         "| target | result | status |",
         "|---|---|---|",
@@ -435,11 +471,21 @@ def _status(e1, e2, paired) -> list[str]:
             else ("met" if h1s["diff"] > h1t["diff"] else "not met")
         )
         + " |",
-        f"| R4: ≥ 3 seeds per compared model | min {int(main.seeds[main.seeds > 1].min())} seeds among trained models | "
+        f"| R4: ≥ 3 seeds per compared model (MELD, DailyDialog) | min {int(main.seeds[main.seeds > 1].min())} seeds among trained models | "
         + ("met" if main.seeds[main.seeds > 1].min() >= 3 else "not met")
         + " |",
     ]
     return lines
+
+
+EMOWOZ_NOTE = [
+    "Native seven labels, 8,634 labelled user turns. Workstreams 4 and 5 have not been run on"
+    " EmoWOZ. ShiftAware is exploratory here: three seeds (0, 1, 42), variant"
+    " `shiftaware_tf-d768-2layer-hm`, the dev-best of the three-seed variants."
+    " In the strata table, offset turns have gold label neutral, so a score without neutral is 0"
+    " there by construction.",
+    "",
+]
 
 
 def write_report(e1, e2, paired, eff, n_boot, n_perm):
@@ -448,10 +494,14 @@ def write_report(e1, e2, paired, eff, n_boot, n_perm):
         "# Group results summary",
         "",
         "Generated by `scripts/summarize_all.py` from `predictions/`; do not edit by hand.",
-        f"Test sets: MELD `test`, DailyDialog `test_dedup`. Scores in %, mean ± sample SD over seeds;"
+        f"Test sets: MELD `test`, DailyDialog `test_dedup`, EmoWOZ `test` (labelled user turns)."
+        f" Scores in %, mean ± sample SD over seeds;"
         f" CIs resample test dialogues ({n_boot} resamples); p-values are approximate randomization"
         f" with dialogue-level swaps ({n_perm} permutations), uncorrected.",
-        "Headline: MELD weighted-F1, DailyDialog micro-F1 without neutral.",
+        "Headline: MELD weighted-F1, DailyDialog micro-F1 without neutral, EmoWOZ weighted-F1"
+        " without neutral.",
+        "EmoWOZ uses its own seven labels (`emotions('emowoz')`), so its scores are in-domain and"
+        " not comparable with MELD or DailyDialog. The hypotheses below are tested on MELD only.",
         "",
         "## Hypotheses and requirements",
         "",
@@ -461,11 +511,12 @@ def write_report(e1, e2, paired, eff, n_boot, n_perm):
         "",
     ]
     for dataset in DATASETS:
-        headline = HEADLINE[dataset]
+        headline, second = HEADLINE[dataset], SECOND[dataset]
         lines += [
             f"### {dataset}",
             "",
-            "| # | model | seeds | headline [95% CI] | macro-F1 |",
+            *(EMOWOZ_NOTE if dataset == "emowoz" else []),
+            f"| # | model | seeds | {SHORT[headline]} [95% CI] | {SHORT[second]} |",
             "|---|---|---|---|---|",
         ]
         for entry in ENTRIES:
@@ -479,7 +530,7 @@ def write_report(e1, e2, paired, eff, n_boot, n_perm):
             lines.append(
                 f"| {entry.workstream} | {entry.name} | {int(row['seeds'])} | "
                 f"{_pm(row[f'{headline}_mean'], row[f'{headline}_sd'])}{ci} | "
-                f"{_pm(row['macro_f1_mean'], row['macro_f1_sd'])} |"
+                f"{_pm(row[f'{second}_mean'], row[f'{second}_sd'])} |"
             )
         lines.append("")
     lines += ["## E2 strata (headline metric)", ""]
@@ -589,7 +640,7 @@ def figures(e2):
             fontsize=8,
         )
         ax.set_ylabel(f"{headline} (%)")
-        ax.set_ylim(0, 100 if dataset == "dailydialog" else 85)  # room for the legend
+        ax.set_ylim(0, 85 if dataset == "meld" else 100)  # room for the legend
         ax.grid(axis="x", visible=False)
         ax.set_title(
             f"{dataset}: headline score on all, stable and shift turns (mean ± SD over seeds)"

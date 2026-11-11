@@ -13,3 +13,10 @@ dailydialog,b2_bilstm,358.5297238999992,,848263.0,3.640342,0.9631499997340143,2.
 dailydialog,b3,842.2399397788001,,124651015.0,502.2,106.82939099979194,149.68547459980076,Linux-6.6.122+-x86_64-with-glibc2.39
 dailydialog,b4,3096.4988612418,,124651015.0,502.2,210.79983500021626,471.59235555020587,Linux-6.6.159+-x86_64-with-glibc2.39
 dailydialog,shiftaware,,"untrained weights, same architecture; one new turn incl. re-encoding its prefix",127217569.0,508.96,50.11625000042841,133.6516680923523,macOS-27.0.1-arm64-arm-64bit
+emowoz,b0 (all variants),27.16371649998473,one run fits and scores every B0 variant; no text model,,,,,
+emowoz,b1,,,323638.0,3.548094,1.9457000162219629,2.2309599953587167,Windows-11-10.0.26200-SP0
+emowoz,b2_bigru,,,206983.0,0.880071,1.793599993106909,2.8392300169798546,Windows-11-10.0.26200-SP0
+emowoz,b2_bilstm,,,223623.0,0.948246,3.1045000068843365,6.144725008925888,Windows-11-10.0.26200-SP0
+emowoz,b3,,[TBD],,,,,
+emowoz,b4,,[TBD],,,,,
+emowoz,shiftaware,,"untrained weights, same architecture; one new turn incl. re-encoding its prefix",127217569.0,508.96,50.11625000042841,133.6516680923523,macOS-27.0.1-arm64-arm-64bit

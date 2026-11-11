@@ -1,61 +1,89 @@
 dataset,a,b,group,metric,target,seed_pairs,n,diff,ci_low,ci_high,p
-meld,b3,b4,all,weighted_f1,H1: gain on stable > shift,5,2610,0.9759,0.0784,1.8897,0.0422
-meld,b3,b4,stable,weighted_f1,H1: gain on stable > shift,5,861,3.4164,1.8815,5.0528,0.0002
-meld,b3,b4,shift,weighted_f1,H1: gain on stable > shift,5,1003,-0.6023,-1.9831,0.8185,0.4021
-meld,b3,b4,all,macro_f1,H1: gain on stable > shift,5,2610,0.5234,-0.6269,1.6000,0.3765
-meld,b3,b4plus,all,weighted_f1,"R3: macro-F1 on MELD, CI excludes 0",5,2610,-3.3966,-4.9951,-1.6974,0.0002
-meld,b3,b4plus,stable,weighted_f1,"R3: macro-F1 on MELD, CI excludes 0",5,861,-3.4378,-6.2483,-0.4454,0.0168
-meld,b3,b4plus,shift,weighted_f1,"R3: macro-F1 on MELD, CI excludes 0",5,1003,-3.1334,-5.8473,-0.6375,0.0216
-meld,b3,b4plus,all,macro_f1,"R3: macro-F1 on MELD, CI excludes 0",5,2610,3.5495,1.5234,5.4730,0.0122
-meld,b4,shiftaware,all,weighted_f1,"H3: +2 on MELD shift turns, CI excludes 0, no stable loss",5,2610,-1.3003,-2.5115,-0.1212,0.0392
-meld,b4,shiftaware,stable,weighted_f1,"H3: +2 on MELD shift turns, CI excludes 0, no stable loss",5,861,-2.6793,-4.6156,-0.5944,0.0080
-meld,b4,shiftaware,shift,weighted_f1,"H3: +2 on MELD shift turns, CI excludes 0, no stable loss",5,1003,-0.3585,-2.4442,1.7150,0.7411
-meld,b4,shiftaware,all,macro_f1,"H3: +2 on MELD shift turns, CI excludes 0, no stable loss",5,2610,5.2415,3.2612,7.2913,0.0010
-meld,b3,shiftaware,all,weighted_f1,,5,2610,-0.3245,-1.6285,0.9806,0.6313
-meld,b3,shiftaware,stable,weighted_f1,,5,861,0.7371,-1.7015,2.9526,0.5501
-meld,b3,shiftaware,shift,weighted_f1,,5,1003,-0.9608,-3.0200,1.0221,0.3573
-meld,b3,shiftaware,all,macro_f1,,5,2610,5.7649,3.6864,7.8754,0.0002
-meld,b1,b3,all,weighted_f1,,5,2610,6.0647,4.5124,7.6190,0.0002
-meld,b1,b3,stable,weighted_f1,,5,861,7.6108,4.4248,10.7544,0.0002
-meld,b1,b3,shift,weighted_f1,,5,1003,6.7597,4.1557,9.3481,0.0002
-meld,b1,b3,all,macro_f1,,5,2610,2.1701,-0.0390,4.4015,0.1532
-meld,b1,b2_bigru,all,weighted_f1,,5,2610,-1.6970,-3.0035,-0.4221,0.0096
-meld,b1,b2_bigru,stable,weighted_f1,,5,861,0.0007,-2.5897,2.6905,0.9994
-meld,b1,b2_bigru,shift,weighted_f1,,5,1003,-1.9553,-4.3403,0.3872,0.0970
-meld,b1,b2_bigru,all,macro_f1,,5,2610,-3.0101,-5.1992,-0.8983,0.0100
-meld,b1,b2_bilstm,all,weighted_f1,,5,2610,-1.8785,-3.3592,-0.3369,0.0128
-meld,b1,b2_bilstm,stable,weighted_f1,,5,861,1.2181,-1.8691,4.4216,0.4565
-meld,b1,b2_bilstm,shift,weighted_f1,,5,1003,-3.5229,-6.0543,-0.9585,0.0100
-meld,b1,b2_bilstm,all,macro_f1,,5,2610,-4.3655,-6.5362,-2.1600,0.0004
-meld,inertia_pred,b1,all,weighted_f1,,5,2610,18.4769,16.1544,20.6352,0.0002
-meld,inertia_pred,b1,stable,weighted_f1,,5,861,-2.6580,-5.4898,0.0140,0.0702
-meld,inertia_pred,b1,shift,weighted_f1,,5,1003,32.9747,29.1424,36.4133,0.0002
-meld,inertia_pred,b1,all,macro_f1,,5,2610,18.9066,16.3597,21.5942,0.0002
-dailydialog,b3,b4,all,micro_f1_no_neutral,,5,7019,4.2722,2.4082,6.1615,0.0002
-dailydialog,b3,b4,stable,micro_f1_no_neutral,,5,4295,7.3450,3.9013,10.6928,0.0002
-dailydialog,b3,b4,shift,micro_f1_no_neutral,,5,942,2.5975,0.4278,4.8153,0.0166
-dailydialog,b3,b4,all,macro_f1,,5,7019,7.7599,3.6470,10.8937,0.0002
-dailydialog,b4,shiftaware,all,micro_f1_no_neutral,,5,7019,-2.2214,-3.6717,-0.6881,0.0046
-dailydialog,b4,shiftaware,stable,micro_f1_no_neutral,,5,4295,-0.2353,-2.6661,2.1676,0.8610
-dailydialog,b4,shiftaware,shift,micro_f1_no_neutral,,5,942,-4.7219,-6.6988,-2.8094,0.0002
-dailydialog,b4,shiftaware,all,macro_f1,,5,7019,-2.3609,-5.3600,2.0443,0.3003
-dailydialog,b3,shiftaware,all,micro_f1_no_neutral,,5,7019,2.0507,0.6343,3.4681,0.0090
-dailydialog,b3,shiftaware,stable,micro_f1_no_neutral,,5,4295,7.1097,4.4866,9.6407,0.0002
-dailydialog,b3,shiftaware,shift,micro_f1_no_neutral,,5,942,-2.1243,-3.9914,-0.1795,0.0354
-dailydialog,b3,shiftaware,all,macro_f1,,5,7019,5.3991,3.0542,7.6613,0.0002
-dailydialog,b1,b3,all,micro_f1_no_neutral,,5,7019,2.3045,0.2947,4.3158,0.0306
-dailydialog,b1,b3,stable,micro_f1_no_neutral,,5,4295,2.0161,-1.3579,5.3569,0.2609
-dailydialog,b1,b3,shift,micro_f1_no_neutral,,5,942,0.9615,-1.8820,3.6690,0.5021
-dailydialog,b1,b3,all,macro_f1,,5,7019,-6.4726,-11.3182,-0.3014,0.0804
-dailydialog,b1,b2_bigru,all,micro_f1_no_neutral,,5,7019,-4.0801,-5.5926,-2.4652,0.0002
-dailydialog,b1,b2_bigru,stable,micro_f1_no_neutral,,5,4295,-5.7016,-8.1224,-3.1770,0.0002
-dailydialog,b1,b2_bigru,shift,micro_f1_no_neutral,,5,942,1.1387,-1.4886,3.8244,0.3861
-dailydialog,b1,b2_bigru,all,macro_f1,,5,7019,-5.5125,-8.4149,-1.1780,0.0004
-dailydialog,b1,b2_bilstm,all,micro_f1_no_neutral,,5,7019,-4.7575,-6.4457,-2.9855,0.0002
-dailydialog,b1,b2_bilstm,stable,micro_f1_no_neutral,,5,4295,-5.6723,-8.1822,-3.1436,0.0002
-dailydialog,b1,b2_bilstm,shift,micro_f1_no_neutral,,5,942,0.0544,-2.5041,2.6319,0.9670
-dailydialog,b1,b2_bilstm,all,macro_f1,,5,7019,-7.3353,-10.6618,-2.6478,0.0002
-dailydialog,inertia_pred,b1,all,micro_f1_no_neutral,,5,7019,31.3506,28.2312,34.6359,0.0002
-dailydialog,inertia_pred,b1,stable,micro_f1_no_neutral,,5,4295,-4.1723,-8.0492,-0.5710,0.0212
-dailydialog,inertia_pred,b1,shift,micro_f1_no_neutral,,5,942,61.2639,56.2648,65.9309,0.0002
-dailydialog,inertia_pred,b1,all,macro_f1,,5,7019,17.1225,13.9419,20.9302,0.0002
+meld,b3,b4,all,weighted_f1,H1: gain on stable > shift,5.0000,2610.0000,0.9759,0.0784,1.8897,0.0422
+meld,b3,b4,stable,weighted_f1,H1: gain on stable > shift,5.0000,861.0000,3.4164,1.8815,5.0528,0.0002
+meld,b3,b4,shift,weighted_f1,H1: gain on stable > shift,5.0000,1003.0000,-0.6023,-1.9831,0.8185,0.4021
+meld,b3,b4,all,macro_f1,H1: gain on stable > shift,5.0000,2610.0000,0.5234,-0.6269,1.6000,0.3765
+meld,b3,b4plus,all,weighted_f1,"R3: macro-F1 on MELD, CI excludes 0",5.0000,2610.0000,-3.3966,-4.9951,-1.6974,0.0002
+meld,b3,b4plus,stable,weighted_f1,"R3: macro-F1 on MELD, CI excludes 0",5.0000,861.0000,-3.4378,-6.2483,-0.4454,0.0168
+meld,b3,b4plus,shift,weighted_f1,"R3: macro-F1 on MELD, CI excludes 0",5.0000,1003.0000,-3.1334,-5.8473,-0.6375,0.0216
+meld,b3,b4plus,all,macro_f1,"R3: macro-F1 on MELD, CI excludes 0",5.0000,2610.0000,3.5495,1.5234,5.4730,0.0122
+meld,b4,shiftaware,all,weighted_f1,"H3: +2 on MELD shift turns, CI excludes 0, no stable loss",5.0000,2610.0000,-1.3003,-2.5115,-0.1212,0.0392
+meld,b4,shiftaware,stable,weighted_f1,"H3: +2 on MELD shift turns, CI excludes 0, no stable loss",5.0000,861.0000,-2.6793,-4.6156,-0.5944,0.0080
+meld,b4,shiftaware,shift,weighted_f1,"H3: +2 on MELD shift turns, CI excludes 0, no stable loss",5.0000,1003.0000,-0.3585,-2.4442,1.7150,0.7411
+meld,b4,shiftaware,all,macro_f1,"H3: +2 on MELD shift turns, CI excludes 0, no stable loss",5.0000,2610.0000,5.2415,3.2612,7.2913,0.0010
+meld,b3,shiftaware,all,weighted_f1,,5.0000,2610.0000,-0.3245,-1.6285,0.9806,0.6313
+meld,b3,shiftaware,stable,weighted_f1,,5.0000,861.0000,0.7371,-1.7015,2.9526,0.5501
+meld,b3,shiftaware,shift,weighted_f1,,5.0000,1003.0000,-0.9608,-3.0200,1.0221,0.3573
+meld,b3,shiftaware,all,macro_f1,,5.0000,2610.0000,5.7649,3.6864,7.8754,0.0002
+meld,b1,b3,all,weighted_f1,,5.0000,2610.0000,6.0647,4.5124,7.6190,0.0002
+meld,b1,b3,stable,weighted_f1,,5.0000,861.0000,7.6108,4.4248,10.7544,0.0002
+meld,b1,b3,shift,weighted_f1,,5.0000,1003.0000,6.7597,4.1557,9.3481,0.0002
+meld,b1,b3,all,macro_f1,,5.0000,2610.0000,2.1701,-0.0390,4.4015,0.1532
+meld,b1,b2_bigru,all,weighted_f1,,5.0000,2610.0000,-1.6970,-3.0035,-0.4221,0.0096
+meld,b1,b2_bigru,stable,weighted_f1,,5.0000,861.0000,0.0007,-2.5897,2.6905,0.9994
+meld,b1,b2_bigru,shift,weighted_f1,,5.0000,1003.0000,-1.9553,-4.3403,0.3872,0.0970
+meld,b1,b2_bigru,all,macro_f1,,5.0000,2610.0000,-3.0101,-5.1992,-0.8983,0.0100
+meld,b1,b2_bilstm,all,weighted_f1,,5.0000,2610.0000,-1.8785,-3.3592,-0.3369,0.0128
+meld,b1,b2_bilstm,stable,weighted_f1,,5.0000,861.0000,1.2181,-1.8691,4.4216,0.4565
+meld,b1,b2_bilstm,shift,weighted_f1,,5.0000,1003.0000,-3.5229,-6.0543,-0.9585,0.0100
+meld,b1,b2_bilstm,all,macro_f1,,5.0000,2610.0000,-4.3655,-6.5362,-2.1600,0.0004
+meld,inertia_pred,b1,all,weighted_f1,,5.0000,2610.0000,18.4769,16.1544,20.6352,0.0002
+meld,inertia_pred,b1,stable,weighted_f1,,5.0000,861.0000,-2.6580,-5.4898,0.0140,0.0702
+meld,inertia_pred,b1,shift,weighted_f1,,5.0000,1003.0000,32.9747,29.1424,36.4133,0.0002
+meld,inertia_pred,b1,all,macro_f1,,5.0000,2610.0000,18.9066,16.3597,21.5942,0.0002
+dailydialog,b3,b4,all,micro_f1_no_neutral,,5.0000,7019.0000,4.2722,2.4082,6.1615,0.0002
+dailydialog,b3,b4,stable,micro_f1_no_neutral,,5.0000,4295.0000,7.3450,3.9013,10.6928,0.0002
+dailydialog,b3,b4,shift,micro_f1_no_neutral,,5.0000,942.0000,2.5975,0.4278,4.8153,0.0166
+dailydialog,b3,b4,all,macro_f1,,5.0000,7019.0000,7.7599,3.6470,10.8937,0.0002
+dailydialog,b4,shiftaware,all,micro_f1_no_neutral,,5.0000,7019.0000,-2.2214,-3.6717,-0.6881,0.0046
+dailydialog,b4,shiftaware,stable,micro_f1_no_neutral,,5.0000,4295.0000,-0.2353,-2.6661,2.1676,0.8610
+dailydialog,b4,shiftaware,shift,micro_f1_no_neutral,,5.0000,942.0000,-4.7219,-6.6988,-2.8094,0.0002
+dailydialog,b4,shiftaware,all,macro_f1,,5.0000,7019.0000,-2.3609,-5.3600,2.0443,0.3003
+dailydialog,b3,shiftaware,all,micro_f1_no_neutral,,5.0000,7019.0000,2.0507,0.6343,3.4681,0.0090
+dailydialog,b3,shiftaware,stable,micro_f1_no_neutral,,5.0000,4295.0000,7.1097,4.4866,9.6407,0.0002
+dailydialog,b3,shiftaware,shift,micro_f1_no_neutral,,5.0000,942.0000,-2.1243,-3.9914,-0.1795,0.0354
+dailydialog,b3,shiftaware,all,macro_f1,,5.0000,7019.0000,5.3991,3.0542,7.6613,0.0002
+dailydialog,b1,b3,all,micro_f1_no_neutral,,5.0000,7019.0000,2.3045,0.2947,4.3158,0.0306
+dailydialog,b1,b3,stable,micro_f1_no_neutral,,5.0000,4295.0000,2.0161,-1.3579,5.3569,0.2609
+dailydialog,b1,b3,shift,micro_f1_no_neutral,,5.0000,942.0000,0.9615,-1.8820,3.6690,0.5021
+dailydialog,b1,b3,all,macro_f1,,5.0000,7019.0000,-6.4726,-11.3182,-0.3014,0.0804
+dailydialog,b1,b2_bigru,all,micro_f1_no_neutral,,5.0000,7019.0000,-4.0801,-5.5926,-2.4652,0.0002
+dailydialog,b1,b2_bigru,stable,micro_f1_no_neutral,,5.0000,4295.0000,-5.7016,-8.1224,-3.1770,0.0002
+dailydialog,b1,b2_bigru,shift,micro_f1_no_neutral,,5.0000,942.0000,1.1387,-1.4886,3.8244,0.3861
+dailydialog,b1,b2_bigru,all,macro_f1,,5.0000,7019.0000,-5.5125,-8.4149,-1.1780,0.0004
+dailydialog,b1,b2_bilstm,all,micro_f1_no_neutral,,5.0000,7019.0000,-4.7575,-6.4457,-2.9855,0.0002
+dailydialog,b1,b2_bilstm,stable,micro_f1_no_neutral,,5.0000,4295.0000,-5.6723,-8.1822,-3.1436,0.0002
+dailydialog,b1,b2_bilstm,shift,micro_f1_no_neutral,,5.0000,942.0000,0.0544,-2.5041,2.6319,0.9670
+dailydialog,b1,b2_bilstm,all,macro_f1,,5.0000,7019.0000,-7.3353,-10.6618,-2.6478,0.0002
+dailydialog,inertia_pred,b1,all,micro_f1_no_neutral,,5.0000,7019.0000,31.3506,28.2312,34.6359,0.0002
+dailydialog,inertia_pred,b1,stable,micro_f1_no_neutral,,5.0000,4295.0000,-4.1723,-8.0492,-0.5710,0.0212
+dailydialog,inertia_pred,b1,shift,micro_f1_no_neutral,,5.0000,942.0000,61.2639,56.2648,65.9309,0.0002
+dailydialog,inertia_pred,b1,all,macro_f1,,5.0000,7019.0000,17.1225,13.9419,20.9302,0.0002
+emowoz,b3,b4,all,weighted_f1_no_neutral,,,,,,,
+emowoz,b3,b4,stable,weighted_f1_no_neutral,,,,,,,
+emowoz,b3,b4,shift,weighted_f1_no_neutral,,,,,,,
+emowoz,b3,b4,all,macro_f1_no_neutral,,,,,,,
+emowoz,b4,shiftaware,all,weighted_f1_no_neutral,,,,,,,
+emowoz,b4,shiftaware,stable,weighted_f1_no_neutral,,,,,,,
+emowoz,b4,shiftaware,shift,weighted_f1_no_neutral,,,,,,,
+emowoz,b4,shiftaware,all,macro_f1_no_neutral,,,,,,,
+emowoz,b3,shiftaware,all,weighted_f1_no_neutral,,,,,,,
+emowoz,b3,shiftaware,stable,weighted_f1_no_neutral,,,,,,,
+emowoz,b3,shiftaware,shift,weighted_f1_no_neutral,,,,,,,
+emowoz,b3,shiftaware,all,macro_f1_no_neutral,,,,,,,
+emowoz,b1,b3,all,weighted_f1_no_neutral,,,,,,,
+emowoz,b1,b3,stable,weighted_f1_no_neutral,,,,,,,
+emowoz,b1,b3,shift,weighted_f1_no_neutral,,,,,,,
+emowoz,b1,b3,all,macro_f1_no_neutral,,,,,,,
+emowoz,b1,b2_bigru,all,weighted_f1_no_neutral,,5.0000,8634.0000,0.5554,-0.3533,1.5146,0.2505
+emowoz,b1,b2_bigru,stable,weighted_f1_no_neutral,,5.0000,4884.0000,1.3406,-0.7784,3.7714,0.2498
+emowoz,b1,b2_bigru,shift,weighted_f1_no_neutral,,5.0000,2650.0000,0.8964,-0.0722,1.8531,0.0740
+emowoz,b1,b2_bigru,all,macro_f1_no_neutral,,5.0000,8634.0000,1.1396,-3.3810,5.2913,0.6337
+emowoz,b1,b2_bilstm,all,weighted_f1_no_neutral,,5.0000,8634.0000,0.5085,-0.3131,1.3634,0.2412
+emowoz,b1,b2_bilstm,stable,weighted_f1_no_neutral,,5.0000,4884.0000,0.7495,-0.9372,2.6545,0.4301
+emowoz,b1,b2_bilstm,shift,weighted_f1_no_neutral,,5.0000,2650.0000,1.0744,0.0182,2.0376,0.0352
+emowoz,b1,b2_bilstm,all,macro_f1_no_neutral,,5.0000,8634.0000,1.6322,-3.0614,5.8028,0.4677
+emowoz,inertia_pred,b1,all,weighted_f1_no_neutral,,5.0000,8634.0000,47.2593,44.6025,50.0445,0.0002
+emowoz,inertia_pred,b1,stable,weighted_f1_no_neutral,,5.0000,4884.0000,1.4888,-1.1415,4.4194,0.3017
+emowoz,inertia_pred,b1,shift,weighted_f1_no_neutral,,5.0000,2650.0000,72.2358,69.2852,75.1833,0.0002
+emowoz,inertia_pred,b1,all,macro_f1_no_neutral,,5.0000,8634.0000,34.1798,29.4496,38.9492,0.0002

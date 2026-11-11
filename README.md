@@ -221,6 +221,24 @@ native EmoWOZ labels using official splits and five seeds. See the
 The original model authors retain credit; 13ray contributes this dataset
 extension. Existing MELD/DailyDialog results are preserved.
 
+## EmoWOZ status by workstream
+
+EmoWOZ is an extension beyond the proposal's core datasets. All rows use the native
+seven labels and the same 8,634 labelled user turns of the official test split;
+headline weighted-F1 excluding neutral. These are in-domain scores and are not
+comparable with MELD or DailyDialog. The numbers are generated in
+[`reports/summary/summary.md`](reports/summary/summary.md) by
+`uv run scripts/summarize_all.py`.
+
+| # | Model | EmoWOZ | Seeds | Headline |
+|---|---|---|---|---|
+| 1 | Inertia / Markov baselines | done (Ruizhi), [`reports/b0/emowoz`](reports/b0/emowoz) | 5 | 29.24 (inertia, predicted history) |
+| 2 | TF-IDF + SVM | done (13ray), [`docs/EMOWOZ_B1_B2.md`](docs/EMOWOZ_B1_B2.md) | 5 | 76.50 |
+| 3 | BiGRU / BiLSTM | done (13ray), same doc | 5 | 77.05 / 77.01 |
+| 4 | RoBERTa-base, utterance only | not run | 0 | [TBD] |
+| 5 | RoBERTa-base with context | not run | 0 | [TBD] |
+| 6 | ShiftAware | exploratory (Fpengz), variant `shiftaware_tf-d768-2layer-hm` | 3 | 82.05 |
+
 ## Development checks
 
 Use the tools directly from the repository root:
