@@ -1,0 +1,5 @@
+dataset,dev_selected_model,stratum,mean_headline_f1_percent
+MELD,BiGRU,Stable,62.12
+MELD,BiGRU,Shift,47.19
+DailyDialog,BiLSTM,Stable,30.2
+DailyDialog,BiLSTM,Shift,70.55
